@@ -1,0 +1,3071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Diploma</title>
+
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+
+  <!-- Google Fonts -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Raleway:400,300,700,900" rel="stylesheet"> -->
+
+
+  <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <!-- <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet"> -->
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+  <link rel="stylesheet" href="sidebar-v2-master/css/leaflet-sidebar.css" />
+  <!-- <link rel="stylesheet" type="text/css" href="https://rawgit.com/MarcChasse/leaflet.ScaleFactor/master/leaflet.scalefactor.min.css"> -->
+  <link rel="stylesheet" href="src/leaflet.zoomhome.css"/>
+  <link rel="stylesheet" href="src/leaflet.scalefactor.min.css"/>
+  <link rel="stylesheet" href="vendor/control.layers.minimap.css">
+  <!-- <link rel="stylesheet" href="src/leaflet_awesome_number_markers.css"/> -->
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/baseMaps.css" rel="stylesheet">
+
+  <style>
+    html {
+        height: 100%;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        vertical-align: baseline;
+    }
+    body, #container { height: 100%; margin: 0; padding: 0;}
+	.map { height: 100%; }
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body, #map {
+        width: 100vw;
+        height: 100%;
+        font: 10pt Palatino, Helvetica, sans-serif;
+    }
+    .lorem {
+        font-style: italic;
+        color: #AAA;
+    }
+    .btn {
+        color: #0074d9;
+        background: transparent;
+        border: 2px solid #0074d9;
+        border-radius: 25px;
+        /* border: none; */
+        color: black;
+        padding: 12px 32px;
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 16px;
+        margin-left: 30px;
+        height: 50px;
+        width: 300px;
+    }
+    .btn:hover {
+      background-color: #0074d9;
+      color: white;
+    }
+    .custom-select {
+        /* background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0; */
+        height: 29px;
+        overflow: hidden;
+        width: 80%;
+        margin-left: 25px;
+    }
+    .custom-select select {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    height: 29px;
+    padding: 5px; /* If you add too much padding here, the options won't show in IE */
+    width: 268px;
+    }
+
+    .semi-square {
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+   
+/* -------------------- Colors: Text */
+    .blue select    { color: #fff; }
+    #inputGroupSelect {
+        color: black;
+        font: 'Trebuchet MS';
+    }
+    /* legend style */
+    .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        /* background: white; */
+        /* background: rgba(255,255,255,0.8); */
+        /* box-shadow: 0 0 15px rgba(0,0,0,0.2); */
+        border-radius: 5px;
+    }
+
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+    .legend {
+        line-height: 18px;
+        color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 15px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+    .info h3{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .info p {
+        font-size: 12px;
+        font-style: italic;
+    }
+    .sidebar-pane #info {
+        font-size: 11px;
+    }
+    .modalDialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999;
+    display:none;
+    opacity: 1;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    }
+    .modalDialog > div {
+    width: 400px;
+    position: relative;
+    margin: 10% auto;
+    padding: 20px 20px 20px 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    /* background: #0074d9; */
+    text-align: center;
+    box-shadow: white;
+    }
+    .close {
+    background: #6E6E6E;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+    }
+    .close:hover {
+    background: #424242;
+    }
+    #openModal1 {
+        position: absolute; 
+        width: 100%;
+        height: 100%;
+        background: #424242;
+        opacity: 0.8;
+    }
+    #loading {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: none;
+    opacity: 0.7;
+    background-color: #fff;
+    z-index: 999;
+    text-align: center;
+    }
+
+    #loading-image {
+    position: absolute;
+    top: 45%;
+    /* top: 300px; */
+    left: 48%;
+    z-index: 1000;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    .leaflet-tooltip-pane .text {
+        color: black; 
+        font-weight: bold;
+        background: transparent;
+        border:0;
+        box-shadow: none;
+        font-size:10px;
+        /* text-shadow: #5A0408 1px 1px 0, #5A0408 -1px -1px 0, 
+                    #5A0408 -1px 1px 0, #5A0408 1px -1px 0; */
+        /* border-color: #5A0408; */
+    }
+    .leaflet-tooltip-pane .vals_OSM {
+        color: black; 
+        font-weight: bold;
+        background: transparent;
+        border:0;
+        box-shadow: none;
+        font-size:10px;
+        /* text-shadow: black 1px 1px 0, black -1px -1px 0, 
+                    black -1px 1px 0, black 1px -1px 0; */
+        /* border-color: #5A0408;
+    }
+    .circle {
+        position: relative;
+        height: 10px;
+        width: 10px;
+        /* display: inline-block; */
+        border-radius: 50%;
+        text-align: center;
+    }
+
+    /* .legend, .temporal-legend {
+  		padding: 6px 10px;
+   		font: 14px/16px Arial, Helvetica, sans-serif;
+  		background: white;
+   		background: rgba(255,255,255,0.8);
+   		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+   		border-radius: 5px;
+	} */
+
+	#legendTitle .h4 {
+  	  	text-align: center;
+   	 	margin-bottom: 15px;
+   		font-variant: small-caps;
+        color: black;
+	}
+	.symbolsContainer {
+        float: left;
+		/* margin-left: 10px; */
+        position: relative;
+        bottom: 0;
+	}
+    .signContainer {
+        float: left;
+		/* margin-left: 10px; */
+        position: relative;
+        bottom: 0;
+    }
+	.legendCircle {
+     	border-radius:50%; 
+     	border: 1px solid orangered; 
+     	background: #ffa000;
+        opacity: 0.3;
+	 	display: inline-block;
+        margin-left: 10px; 
+        text-align: center;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+	}
+	.legendValue {
+    		position: absolute;
+            margin-top: 5px;
+            margin-left: 5px;
+            text-align: center;
+    		/* right: 8px; */
+	}
+    .legendCircle .text {
+        text-align: center;
+        display: inline-block;
+        padding: 40% 0;
+        color: black; 
+        font-weight: bold;
+        background: transparent;
+        border:1px #ffa000;
+        box-shadow: none;
+        font-size:14px;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+        /* width: 100%; */
+        /* position: absolute; */
+        /* transform: translateY(-50%); */
+    }
+    .legendCircleMax {
+     	border-radius:50%; 
+     	/* border: 1px solid #537898;  */
+     	background: #FECE75;
+        opacity: 1;
+        fill-opacity: 0.5;
+        border: 1.5px solid orangered;
+	 	display: inline-block;
+        margin-left: 10px; 
+        text-align: center;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+	}
+    .legendCircleMax .text {
+        border-radius: 50%;
+        text-align: center;
+        display: inline-block;
+        opacity: 1;
+        padding: 40% 0;
+        color: black; 
+        font-weight: bold;
+        background: transparent;
+        border:1px orangered;
+        box-shadow: none;
+        font-size:14px;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+    }
+    .legendCircleMid {
+     	border-radius:50%; 
+     	/* border: 1px solid #537898;  */
+     	background: #FECE75;
+        border: 1.5px solid orangered;
+        opacity: 1;
+	 	display: inline-block;
+        margin-left: 40px; 
+        text-align: center;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+	}
+    .legendCircleMid .text {
+        text-align: center;
+        display: inline-block;
+        padding: 30% 0;
+        color: black; 
+        font-weight: bold;
+        background: transparent;
+        border:1px orangered;
+        box-shadow: none;
+        font-size:14px;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+    }
+    .legendCircleMid2 {
+     	border-radius:50%; 
+     	/* border: 1px solid #537898;  */
+     	background: #FECE75;
+        border: 1.5px solid orangered;
+        opacity: 1;
+	 	display: inline-block;
+        margin-left: 40px; 
+        text-align: center;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+	}
+    .legendCircleMid2 .text {
+        margin-top: -5px;
+        text-align: center;
+        display: inline-block;
+        padding: 30% 0;
+        color: black; 
+        font-weight: bold;
+        background: transparent;
+        border:1px orangered;
+        box-shadow: none;
+        font-size:14px;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+    }
+    .legendCircleMin {
+     	border-radius:50%; 
+     	/* border: 1px solid #537898;  */
+     	background:#FECE75;
+        border: 1.5px solid orangered;
+        opacity: 1;
+	 	display: inline-block;
+        margin-left: 80px; 
+        text-align: center;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+	}
+    .legendCircleMin .text {
+        text-align: center;
+        display: inline-block;
+        /* padding: 30% 0; */
+        color: black; 
+        font-weight: bold;
+        /* background: transparent; */
+        border:1px orangered;
+        box-shadow: none;
+        font-size:14px;
+        /* text-shadow: #3A06FB 2px 2px 0, #3A06FB -1px -1px 0, 
+                    #3A06FB -1px 1px 0, #3A06FB 1px -1px 0; */
+    }
+    .signContainer .text_sign {
+        /* text-align: center; */
+        padding-left: 15px;
+        /* padding-left: 25px; */
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign1 {
+        /* text-align: center; */
+        padding-left: 35px;
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign2 {
+        /* text-align: center; */
+        padding-left: 35px;
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign3 {
+        /* text-align: center; */
+        padding-left: 10px;
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign4 {
+        /* text-align: center; */
+        padding-left: 1px;
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign5 {
+        /* text-align: center; */
+        padding-left: 25px;
+        /* padding-left: 25px; */
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign6 {
+        /* text-align: center; */
+        padding-left: 45px;
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign7 {
+        /* text-align: center; */
+        padding-left: 15px;
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign8 {
+        /* text-align: center; */
+        padding-left: 10px;
+        margin-top: 50%;
+        color: black;
+    }
+    .signContainer .text_sign9 {
+        /* text-align: center; */
+        padding-left: 5px;
+        margin-top: 50%;
+        color: black;
+    }
+
+</style>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+<script src="sidebar-v2-master/js/leaflet-sidebar.js"></script>
+<!-- <script src="https://rawgit.com/MarcChasse/leaflet.ScaleFactor/master/leaflet.scalefactor.min.js"></script> -->
+<script src="src/leaflet.zoomhome.min.js"></script>
+<script src="src/leaflet.scalefactor.min.js"></script>
+
+<script src="src/leaflet-providers.js"></script>
+<script src="vendor/L.Control.Layers.Minimap.js"></script>
+<script src="vendor/highlight.pack.js"></script>
+<!-- <script src="src/leaflet_awesome_number_markers.js"></script> -->
+
+</head>
+
+<body>
+
+    <div id="loading">
+        <img id="loading-image" src="img/preloader.gif" alt="Loading..." />
+    </div>
+    <div id="openModal1" class="modalDialog"></div>
+    <div id="openModal" class="modalDialog">
+        
+        <div>
+            <a href="#close" title="Close" class="close">X</a>
+        
+            <p style="color:black; font: 'Trebuchet MS'"><h3>Приложение для оценки наполнения базы данных OpenStreetMap (OSM)</h3>
+                <h4 style='font-weight: bold; font: 14px'>ИНСТРУКЦИЯ</h4>
+                    1. Выбор территории и типа объектов — с помощью ниспадающих списков в меню <b>Параметры запроса</b><br><br>
+                    2. Для сравнения количества объектов в OSM и официальных данных — <b>Сравнить с официальными данными</b> <br><br>
+                    3. Для расчета количества объектов OSM на душу населения — <b>Рассчитать показатель на душу населения</b><br><br>
+                    4. Для построения карты — нажать кнопку <b>Получить данные</b><br><br>
+                    5. Для возврата к исходному экстенту нажать <i class="fa fa-home" aria-hidden="true"></i> <br><br>
+                    </p>
+        </div>
+    </div>
+
+
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#filter" role="tab"><i class="fa fa-filter"></i></a></li>
+                <li><a href="#legend" role="tab"><i class="fa fa-list-ul"></i></a></li>
+                <li><a href="#layers" role="tab"><i class="fas fa-layer-group"></i></a></li>
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+                <li><a href="#info" role="tab"><i class="fa fa-info-circle"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="filter">
+                <h1 class="sidebar-header">
+                    Параметры запроса
+                    <span class="sidebar-close"><i class="fa fa-caret-right"></i></span>
+                </h1>
+
+                <div class=" navbar">
+                    <!-- <ul class="nav navbar-nav"> -->
+                        <br>
+                        <!-- <li> -->
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect">Субъект России:</label>
+                                </div>
+                                <p>
+                                <select class="custom-select blue semi-square" id="inputGroupSelect">
+                                    <option selected>Российская Федерация</option>
+                                    <script>
+                                        var myArray = new Array('Алтайский край', 'Амурская область', 'Архангельская область', 'Астраханская область', 'Белгородская область', 'Брянская область', 'Владимирская область', 'Волгоградская область', 'Вологодская область', 'Воронежская область', 'Еврейская автономная область', 'Забайкальский край', 'Ивановская область', 'Иркутская область', 'Кабардино-Балкарская Республика', 'Калининградская область', 'Калужская область', 'Камчатский край', 'Карачаево-Черкесская Республика', 'Кемеровская область', 'Кировская область', 'Костромская область', 'Краснодарский край', 'Красноярский край', 'Курганская область', 'Курская область', 'Ленинградская область', 'Липецкая область', 'Магаданская область', 'Москва', 'Московская область', 'Мурманская область', 'Ненецкий автономный округ', 'Нижегородская область', 'Новгородская область', 'Новосибирская область', 'Омская область', 'Оренбургская область', 'Орловская область', 'Пензенская область', 'Пермский край', 'Приморский край', 'Псковская область', 'Республика Адыгея', 'Республика Алтай', 'Республика Башкортостан', 'Республика Бурятия', 'Республика Дагестан', 'Республика Ингушетия', 'Республика Калмыкия', 'Республика Карелия', 'Республика Коми', 'Республика Крым', 'Республика Марий Эл', 'Республика Мордовия', 'Республика Саха (Якутия)', 'Республика Северная Осетия - Алания', 'Республика Татарстан', 'Республика Тыва', 'Республика Хакасия', 'Ростовская область', 'Рязанская область', 'Самарская область', 'Санкт-Петербург', 'Саратовская область', 'Сахалинская область', 'Свердловская область', 'Севастополь', 'Смоленская область', 'Ставропольский край', 'Тамбовская область', 'Тверская область', 'Томская область', 'Тульская область', 'Тюменская область', 'Удмуртская Республика', 'Ульяновская область', 'Хабаровский край', 'Ханты-Мансийский автономный округ - Югра', 'Челябинская область', 'Чеченская Республика', 'Чувашская Республика', 'Чукотский автономный округ', 'Ямало-Ненецкий автономный округ', 'Ярославская область');
+                                        for(i=0; i<myArray.length; i++) {  
+                                            document.write('<option value="' + myArray[i] +'">' + myArray[i] + '</option>');
+                                        }
+                                    </script>
+                                </select>
+                            </div>
+                            </p>
+                            <br>
+                        <!-- </li> -->
+                        <!-- <li> -->
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">Объекты сферы услуг:</label>
+                                </div>
+                                <p>
+                                <select class="custom-select blue semi-square" id="inputGroupSelect01">
+                                    <option selected>Выберите...</option>
+                                    <script>
+                                        var myArray = new Array('Автобусные станции', 'Автомойки', 'Автошколы', 'Административные здания', 'Аптеки', 'Аренда автомобилей', 'Аренда велосипедов', 'Аренда лодок', 'Архивы', 'Банки', 'Банкоматы', 'Барбекю', 'Бары', 'Библиотеки', 'Билетные валидаторы', 'Больницы', 'Буккроссинг', 'Велопарковка', 'Велоремонт', 'Ветеринарные клиники', 'Въезд на парковку', 'Детские сады', 'Доктора', 'Дома престарелых', 'Заправочные станции', 'Здания суда', 'Интернет-кафе', 'Исследовательские институты', 'Казино', 'Каршеринг', 'Кафе', 'Кинотеатры', 'Клиники', 'Колледжи', 'Крематории', 'Культурные центры', 'Кухни', 'Мороженое', 'Мотопарковки', 'Музыкальные школы', 'Мусорные баки', 'Ночные клубы', 'Общественные бани', 'Общественные центры', 'Общественный душ', 'Пабы', 'Парковки', 'Парковочные места', 'Пекарни', 'Питьевая вода', 'Планетарии', 'Пожарные станции', 'Поисково-спасательные службы', 'Полиция', 'Порты', 'Посольства', 'Почтовые офисы', 'Почтовые ящики', 'Приюты', 'Приюты для животных', 'Пункты обмена валюты', 'Пункты сдачи на переработку', 'Рабочие пространства', 'Религиозные места', 'Рестораны', 'Рынки', 'Свалки', 'Скамейки', 'Склепы', 'Социальное обслуживание', 'Социальные центры', 'Столы', 'Стоматологии', 'ТВ/Радиостудии', 'Такси', 'Театры', 'Телефон', 'Техническое обслуживание автомобилей', 'Торговые автоматы', 'Точки доступной воды', 'Туалеты', 'Тюрьмы', 'Университеты', 'Урны', 'Фастфуд', 'Фонтаны', 'Фотобудки', 'Фудкорт', 'Центры сдачи крови', 'Часы', 'Школы', 'Языковые школы');
+                                        for(i=0; i<myArray.length; i++) {  
+                                            document.write('<option value="' + myArray[i] +'">' + myArray[i] + '</option>');
+                                        }
+                                    </script>
+                                </select>
+                            </div>
+                            </p>
+                        <!-- </li> -->
+                        <br> 
+                        <!-- <li>
+                          <button type="button" class="btn" id='button'>Start</button>
+                        </li> -->
+                    <!-- </ul> -->
+                    <input name="r1" type="radio" value="5" checked> Сравнить с официальными данными <br>
+                    <input name="r1" type="radio" value="13"> Рассчитать показатель на душу населения<br><br>
+                    <button type="button" class="btn" id='button'>Получить данные</button><br>
+                    <!-- <button type="button" class="btn" id='russia'>Население России</button>
+                    <button type="button" class="btn" id='obj_rus'>Получить данные по России</button> -->
+                    
+                    <!-- <input name="r1" type="radio" value="53"> Объекты сферы услуг -->
+                </div>
+
+            </div>
+
+            <div class="sidebar-pane" id="legend">
+                <h1 class="sidebar-header">Условные обозначения<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="layers">
+                <h1 class="sidebar-header">Слои<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1><br>
+                <input type="checkbox" id="regions" checked> Субъекты России<br>
+                <input type="checkbox" id="mun">Муниципальные образования<br>
+                <input type="checkbox" id="markers">Показатель количества объектов<br>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Настройка базовой карты<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1>
+            </div>
+            <div class="sidebar-pane" id="info" style="font-size: 11px">
+                <h1 class="sidebar-header">Информация<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1>
+                <p>Веб-приложение для оценки наполнения базы данных OSM.  
+                </p>
+                <h4>Источники</h4>
+                <p>OpenStreetMap <a href="https://www.openstreetmap.org">www.openstreetmap.org</a></p>
+                <p>Федеральная служба государственной статистики <a href="http://www.gks.ru/">www.gks.ru</a></p>
+                <p>Министерство финансов РФ <a href="https://www.minfin.ru/ru/ismf/eiasmfrf/">www.gks.ru</a></p>
+                <h4>Инструкция</h4>
+                <p>1. Выбор территории и типа объектов — с помощью ниспадающих списков в меню <b>Параметры запроса</b></p>
+                <p>2. Для сравнения количества объектов в OSM и официальных данных — <b>Сравнить с офциальными данными</b></p>
+                <p>3. Для расчета количества объектов OSM на душу населения — <b>Рассчитать показатель на душу населения</b></p>
+                <p>3. При заполненных полях параметров для получения карты субъекта необходимо выбрать субъект в меню</p>
+                <p>4. Для построения карты — нажать кнопку <b>Получить данные</b></p>
+                <p>5. Для возврата к исходному экстенту нажать <i class="fa fa-home" aria-hidden="true"></i></p>
+                <h4>Авторы</h4>
+                <p>Веб-приложение разработано в рамках выпускной работы студента кафедры картографии и геоинформатики географического факультета МГУ 
+                    имени М.В.Ломоносова Усмановой Э.А. Научный руководитель: в.н.с., к.г.н. Самсонов Т.Е.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="map" class="sidebar-map"></div>
+
+</body>
+
+<script src="regions.js"></script>
+<script src="msk.js"></script>
+<!-- <script src="yar.js"></script> -->
+
+
+<script>
+
+        
+    regions.features.map(f => {
+        if (f.properties.name === "Чукотский автономный округ") {
+            f.geometry.coordinates.map(g => {
+                g[0].map(ga => {
+                    if (ga[0] < 0) {
+                        ga[0] = 360 + ga[0];
+                    }
+                    if (ga[1] < 0) {
+                        ga[1] = 360 + ga[1];
+                    }
+                })
+            });
+        }
+    });
+    // console.log(regions.features);
+    
+
+    $( document ).ready(function() {
+    $('.modalDialog').fadeIn();
+        
+        $('.close').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            
+            $('.modalDialog').fadeOut();
+            
+        });
+    });
+</script>
+
+<!-- <script>
+    // Save data to sessionStorage
+    sessionStorage.setItem('firstVisit', '1');
+
+    /* Fix size on document ready.*/
+    $(function()
+    {
+        if (!sessionStorage.getItem('firstVisit') === "1")
+        {
+        $(".b-container").show();
+        $(".b-popup").show(); 
+        } 
+
+        //Close element.
+        $(".b-popup").click(function()
+        {
+        $(this).hide();
+        });
+        $(".b-container").click(function()
+        {
+        $(this).hide();
+        });
+
+    });
+  
+</script> -->
+
+<script>
+    var markers = new L.LayerGroup();
+    var texts = new L.LayerGroup();
+    var layerMun = new L.Layer();
+    var layerRus = new L.Layer();
+    var numberCount
+    var pop
+    // var m = {'Московская область': msk, 'Ярославская область': yar}
+    var d = {'Бары': 'bar', 'Барбекю': 'bbq', 'Кафе': 'cafe', 'Питьевая вода': 'drinking_water', 'Фастфуд': 'fast_food', 'Фудкорт': 'food_court', 'Мороженое': 'ice_cream', 'Пабы': 'pub', 'Рестораны': 'restaurant', 'Колледжи': 'college', 'Детские сады': 'kindergarten', 'Библиотеки': 'library', 'Архивы': 'archive', 'Буккроссинг': 'public_bookcase', 'Школы': 'school', 'Музыкальные школы': 'music_school', 'Автошколы': 'driving_school', 'Языковые школы': 'language_school', 'Университеты': 'university', 'Исследовательские институты': 'research_institute', 'Велопарковка': 'bicycle_parking', 'Велоремонт': 'bicycle_repair_station', 'Аренда велосипедов': 'bicycle_rental', 'Аренда лодок': 'boat_rental', 'Автобусные станции': 'bus_station', 'Аренда автомобилей': 'car_rental', 'Каршеринг': 'car_sharing', 'Автомойки': 'car_wash', 'Техническое обслуживание автомобилей': 'vehicle_inspection', 'Порты': 'ferry_terminal', 'Заправочные станции': 'fuel', 'Мотопарковки': 'motorcycle_parking', 'Парковки': 'parking', 'Въезд на парковку': 'parking_entrance', 'Парковочные места': 'parking_space', 'Такси': 'taxi', 'Билетные валидаторы': 'ticket_validator', 'Банкоматы': 'atm', 'Банки': 'bank', 'Пункты обмена валюты': 'bureau_de_change', 'Клиники': 'clinic', 'Стоматологии': 'dentist', 'Доктора': 'doctors', 'Больницы': 'hospital', 'Дома престарелых': 'nursing_home', 'Аптеки': 'pharmacy', 'Социальное обслуживание': 'social_facility', 'Ветеринарные клиники': 'veterinary', 'Центры сдачи крови': 'blood_donation', 'Культурные центры': 'art_centre', 'Казино': 'casino', 'Кинотеатры': 'cinema', 'Общественные центры': 'community_centre', 'Фонтаны': 'fountain', 'Ночные клубы': 'nightclub', 'Планетарии': 'planetarium', 'Социальные центры': 'social_centre', 'ТВ/Радиостудии': 'studio', 'Театры': 'theatre', 'Приюты для животных': 'animal_shelter', 'Пекарни': 'baking_oven', 'Скамейки': 'bench', 'Часы': 'clock', 'Здания суда': 'courthouse', 'Рабочие пространства': 'coworking_space', 'Крематории': 'crematorium', 'Склепы': 'crypt', 'Посольства': 'embassy', 'Пожарные станции': 'fire_station', 'Интернет-кафе': 'internet_cafe', 'Кухни': 'kitchen', 'Рынки': 'marketplace', 'Фотобудки': 'photo_booth', 'Религиозные места': 'place_of_worship', 'Полиция': 'police', 'Почтовые ящики': 'post_box', 'Почтовые офисы': 'post_office', 'Тюрьмы': 'prison', 'Общественные бани': 'public_bath', 'Пункты сдачи на переработку': 'recycling', 'Поисково-спасательные службы': 'rescue_station', 'Приюты': 'shelter', 'Общественный душ': 'shower', 'Столы': 'table', 'Телефон': 'telephone', 'Туалеты': 'toilets', 'Административные здания': 'townhall', 'Торговые автоматы': 'vending_machine', 'Урны': 'waste_basket', 'Мусорные баки': 'waste_disposal', 'Свалки': 'waste_transfer_station', 'Точки доступной воды': 'watering_place'};
+    $(document).ready(function() {
+        var mapId = document.getElementById("map");
+        var myLeafletMap = L.map('map', {zoomControl: false}).setView([60.00, 50.00], 4);
+
+    // function request() {
+
+    //     var e = document.getElementById("inputGroupSelect");
+    //     var strUser = e.options[e.selectedIndex].text;
+    //     console.log(strUser);
+
+    //     $.post(
+    //     "https://overpass-api.de/api/interpreter",
+    //     {
+    //         data: `[out:csv(::count, ::"count:nodes", ::"count:relations")][timeout:25];
+    //             area(3602555133)->.searchArea;
+    //             (
+    //                 node["amenity" = "bar"](area.searchArea);
+    //                 way["amenity" = "bar"](area.searchArea);
+    //                 relation["amenity" = "bar"](area.searchArea);
+    //             );
+    //             out count;`,
+    //     },
+    //     onAjaxSuccess,
+    //     );
+        
+    //     function onAjaxSuccess(data)
+    //     {
+    //     // Здесь мы получаем данные, отправленные сервером и выводим их на экран.
+    //     console.log(data);
+    //     var resultId = document.getElementById("result");
+    //     resultId.innerText = data;
+    //     }
+    // };
+
+        // function button_action() {
+
+        // };
+    
+    var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(myLeafletMap);
+    var zoomHome = L.Control.zoomHome();
+    zoomHome.addTo(myLeafletMap);
+    L.control.scale().addTo(myLeafletMap);
+
+    // var poly = L.geoJSON(regions).addTo(myLeafletMap);
+
+    //Настройка базовых карт
+
+    //создаем список базовых карт
+    var baseLayers = {
+        'OpenStreetMap.Mapnik': L.tileLayer.provider('OpenStreetMap.Mapnik'),
+        'NASAGIBS.ViirsEarthAtNight2012': L.tileLayer.provider('NASAGIBS.ViirsEarthAtNight2012'),
+        'OSM HOT': L.tileLayer.provider('OpenStreetMap.HOT'),
+        'Watercolor': L.tileLayer.provider('Stamen.Watercolor')
+    };
+    //добавляем контрол базовых карт на карту
+    var layersControl = L.control.layers.minimap(baseLayers, {}, {
+        collapsed: false
+    }).addTo(myLeafletMap);
+
+    baseLayers[Object.keys(baseLayers)[0]].addTo(myLeafletMap);//добавляем 1й (то есть 2й, т.к. счет начинается с 0) на основную карту первую из миникарт и чекаем её
+    layersControl.filter("");//это нужно, чтобы тайлы на миникартах подгружались
+
+    //получаем элемент, в который мы положим все карты
+    var settingsId = document.getElementById("settings");
+    //получаем полностью сформированный виджет миникарт
+    var minimapsNode = document.getElementsByClassName("leaflet-control-layers-minimap")[0];
+    // console.log(minimapsNode);
+    //переносим виджет базовых карт в нужный нам элемент
+    settingsId.appendChild(minimapsNode);
+
+    //Конец настройки базовых карт
+
+
+    var categories = [];
+    var data = [];
+    var names = [];
+
+    regions.features.map( (feature, index) => {
+        categories.push(feature.properties.okrug);
+        data.push(parseInt(feature.properties.name));
+
+    });
+
+    // msk.features.map( (feature, index) => {
+    //     names.push(feature.properties.name);
+    // });
+
+    function getColor(d) {
+        return d > 5000 ? '#800026' :
+            d > 2500  ? '#BD0026' :
+            d > 1500  ? '#E31A1C' :
+            d > 500  ? '#FC4E2A' :
+            d > 100   ? '#FD8D3C' :
+            d > 50   ? '#FEB24C' :
+            d > 25   ? '#FED976' :
+            d > 0      ? '#FFEDA0' :
+                         '#858687';
+    };
+
+
+    //Colors for OSM/oficial
+    function markColor(d) {
+        return d > 1 ? '#220486' :
+            d > 0.9 ? '#4628BA' :
+            d > 0.7 ? '#6254E1' :
+            d > 0.5 ? '#8A7EF5' :
+            d > 0 ? '#C3BCFD' :
+                         '#8A8989';
+    };
+
+    //Colors for OSM/population
+    function markColorPop(d) {
+        return d > 0.5 ? '#220486' :
+            d > 0.2 ? '#4628BA' :
+            d > 0.1 ? '#6254E1' :
+            d > 0.05 ? '#8A7EF5' :
+            d > 0 ? '#C3BCFD' :
+                         '#8A8989';
+    };
+
+    function calcPropRadius(attributeValue) {
+		var scaleFactor = 100;
+		var area = attributeValue * scaleFactor;
+		return Math.sqrt(area/Math.PI)*2;			
+	}
+
+
+    // Легенда для муниципалитетов - плотность населения - фон
+    function addLegend() {
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [5000, 2500, 1500, 500, 100, 50, 25, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Плотность населения</h3>'
+            div.innerHTML += '<p>чел./кв.км</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            if (i===0) {
+                div.innerHTML += 
+                    '<i style="background:' + getColor(grades[i]+1) + '"></i> ' +
+                    'более ' + formatter.format(grades[i]) + '<br>';
+            }
+            else if (i===grades.length - 1) {
+                div.innerHTML += 
+                    '<i style="background:' + getColor(grades[i]+1) + '"></i> ' +
+                    'менее ' + formatter.format(grades[i-1]) + '<br>';
+            }
+            else {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    formatter.format(grades[i]) + ' - ' + formatter.format(grades[i-1]) + '<br>';
+            }
+        };
+
+        var symbolsContainer = L.DomUtil.create('div', 'symbolsContainer');
+		var classes = [grades[grades.length-2]*10, grades[(grades.length/2)-1]*10, grades[0]*10]; 
+		var legendCircle;  
+		var lastRadius = 0;
+		var currentRadius;
+		var margin;
+
+		// L.DomEvent.addListener(div, 'mousedown', function(e) { 
+		// 	L.DomEvent.stopPropagation(e); 
+		// });  
+
+		$(div).append("<h2 id=’legendTitle’>численность населения</h2>");
+		
+		for (var i = 0; i <= classes.length-1; i++) {  
+
+			legendCircle = L.DomUtil.create('div', 'legendCircle');  
+			
+			currentRadius = calcPropRadius(classes[i]);
+			
+			margin = -currentRadius - lastRadius - 2;
+
+			$(legendCircle).attr('style', 'width: ' + currentRadius*2 + 
+				'px; height: ' + currentRadius*2 + 
+				'px; margin-left: ' + margin + 'px' );				
+			$(legendCircle).append("<span class='legendValue'>"+classes[i]+"</span>");
+
+			$(symbolsContainer).append(legendCircle);
+
+			lastRadius = currentRadius;
+
+		}
+
+		$(div).append(symbolsContainer);
+
+        // console.log(div);
+
+        return div;
+    };
+
+
+    function addLegendOSM() {
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [5000, 2500, 1500, 500, 100, 50, 25, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Плотность населения</h3>'
+            div.innerHTML += '<p>чел./кв.км</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            if (i===0) {
+                div.innerHTML += 
+                    '<i style="background:' + getColor(grades[i]+1) + '"></i> ' +
+                    'более ' + formatter.format(grades[i]) + '<br>';
+            }
+            else if (i===grades.length - 1) {
+                div.innerHTML += 
+                    '<i style="background:' + getColor(grades[i]+1) + '"></i> ' +
+                    'менее ' + formatter.format(grades[i-1]) + '<br>';
+            }
+            else {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    formatter.format(grades[i]) + ' - ' + formatter.format(grades[i-1]) + '<br>';
+            }
+        }
+
+        // console.log(div);
+
+        return div;
+    };
+
+
+    // Легенда для карты России - плотность населения - фон
+    function addLegendRusDen() {
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [3000, 500, 100, 50, 25, 5, 1, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Плотность населения</h3>'
+            div.innerHTML += '<p>чел./кв.км</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                if (i===0) {
+                    div.innerHTML += 
+                        '<i style="background:' + russiaDenColor(grades[i]+1) + '"></i> ' +
+                        'более ' + formatter.format(grades[i]) + '<br>';
+                }
+                else if (i===grades.length - 1) {
+                    div.innerHTML += 
+                        '<i style="background:' + russiaDenColor(grades[i]+1) + '"></i> ' +
+                        'менее ' + formatter.format(grades[i-1]) + '<br>';
+                }
+                else {
+                    div.innerHTML +=
+                        '<i style="background:' + russiaDenColor(grades[i] + 1) + '"></i> ' +
+                        formatter.format(grades[i]) + ' - ' + formatter.format(grades[i-1]) + '<br>';
+                }
+            };
+
+            // div.innerHTML += '<h3>Численность населения</h3>'
+            // div.innerHTML += '<p>тыс. чел.</p>'
+
+            // div.innerHTML += 
+            //     '<div class="circle" style="border-radius: 50%, width: 10px, height: 10px, background: black">7539</div>'
+
+            // console.log(div);
+
+        return div;
+
+    };
+
+    // Легенда для тематических карт по субъектам OSM/oficial
+    function addLegendOSM_area() {
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [1, 0.9, 0.7, 0.5, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Количество объектов OSM к данным Росстата</h3>'
+            div.innerHTML += '<p>OSM/оф.источник</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            if (i===0) {
+                div.innerHTML += 
+                    '<i style="background:' + markColor(grades[i]+0.0001) + '"></i> ' +
+                    'более ' + formatter.format(grades[i]) + '<br>';
+            }
+            else if (i===grades.length - 1) {
+                div.innerHTML += 
+                    '<i style="background:' + markColor(grades[i]+0.0001) + '"></i> ' +
+                    'менее ' + formatter.format(grades[i-1]) + '<br>';
+            }
+            else {
+                div.innerHTML +=
+                    '<i style="background:' + markColor(grades[i] + 0.0001) + '"></i> ' +
+                    formatter.format(grades[i]) + ' - ' + formatter.format(grades[i-1]) + '<br>';
+            }
+        }
+
+        // console.log(div);
+
+        return div;
+    };
+
+    // Легенда для тематических карт по муниципалитетам OSM/oficial
+    function addLegendOSMmun_area() {
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [1, 0.9, 0.7, 0.5, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Количество объектов OSM к данным Росстата</h3>'
+            div.innerHTML += '<p>OSM/оф.источник</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            if (i===0) {
+                div.innerHTML += 
+                    '<i style="background:' + markColor(grades[i]+0.0001) + '"></i> ' +
+                    'более ' + formatter.format(grades[i]) + '<br>';
+            }
+            else if (i===grades.length - 1) {
+                div.innerHTML += 
+                    '<i style="background:' + markColor(grades[i]+0.0001) + '"></i> ' +
+                    'менее ' + formatter.format(grades[i-1]) + '<br>';
+            }
+            else {
+                div.innerHTML +=
+                    '<i style="background:' + markColor(grades[i] + 0.0001) + '"></i> ' +
+                    formatter.format(grades[i]) + ' - ' + formatter.format(grades[i-1]) + '<br>';
+            }
+        }
+
+        div.innerHTML +=
+                    '<i style="background:' + markColor(-1) + '"></i> Данные не обнаружены' + '<br>';
+
+        // console.log(div);
+
+        return div;
+    };
+
+    // Легенда для тематических карт по субъектам OSM/population
+    function addLegendOSMPop_area() {
+
+        var formatter = new Intl.NumberFormat("ru", {maximumFractionDigits: 5});
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [0.5, 0.2, 0.1, 0.05, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Количество объектов OSM на душу населения</h3>'
+            div.innerHTML += '<p>объект/тыс. чел.</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            if (i===0) {
+                div.innerHTML += 
+                    '<i style="background:' + markColorPop(grades[i]+0.00000001) + '"></i> ' +
+                    'более ' + formatter.format(grades[i]) + '<br>';
+            }
+            else if (i===grades.length - 1) {
+                div.innerHTML += 
+                    '<i style="background:' + markColorPop(grades[i]+0.00000001) + '"></i> ' +
+                    'менее ' + formatter.format(grades[i-1]) + '<br>';
+            }
+            else {
+                div.innerHTML +=
+                    '<i style="background:' + markColorPop(grades[i] + 0.00000001) + '"></i> ' +
+                    formatter.format(grades[i]) + ' - ' + formatter.format(grades[i-1]) + '<br>';
+            }
+        }
+        
+        // console.log(div);
+
+        return div;
+    };
+
+    // Легенда для тематических карт по муниципалитетам OSM/population
+    function addLegendOSMPopMun_area() {
+
+        var formatter = new Intl.NumberFormat("ru", {maximumFractionDigits: 5});
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [0.5, 0.2, 0.1, 0.05, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Количество объектов OSM на душу населения</h3>'
+            div.innerHTML += '<p>объект/тыс. чел.</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            if (i===0) {
+                div.innerHTML += 
+                    '<i style="background:' + markColorPop(grades[i]+0.00000001) + '"></i> ' +
+                    'более ' + formatter.format(grades[i]) + '<br>';
+            }
+            else if (i===grades.length - 1) {
+                div.innerHTML += 
+                    '<i style="background:' + markColorPop(grades[i]+0.00000001) + '"></i> ' +
+                    'менее ' + formatter.format(grades[i-1]) + '<br>';
+            }
+            else {
+                div.innerHTML +=
+                    '<i style="background:' + markColorPop(grades[i] + 0.00000001) + '"></i> ' +
+                    formatter.format(grades[i]) + ' - ' + formatter.format(grades[i-1]) + '<br>';
+            }
+        }
+        div.innerHTML +=
+                    '<i style="background:' + markColorPop(-1) + '"></i> Данные не обнаружены' + '<br>';
+
+        // console.log(div);
+
+        return div;
+    };
+
+
+    function addLegend_circle(grades) {
+
+        // console.log(grades[7]);
+        // var val = Math.max(grades);
+
+        // console.log(val);
+
+        // if (val >= 1000) {
+        //     var classes = [100, 1000]
+        // }
+        // else if (val >= 500) {
+        //     var classes = [50, 500]
+        // }
+        // else if (val >= 100) {
+        //     var classes = [10, 100]
+        // }
+        // else if (val >= 10) {
+        //     var classes = [3, 10]
+        // }
+        // else if (val >= 0) {
+        //     var classes = [3, 5]
+        // }
+
+        // console.log(classes);
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id-circle'),
+            
+
+
+            symbolsContainer = L.DomUtil.create('div', 'symbolsContainer');
+            signContainer = L.DomUtil.create('div', 'signContainer');
+            var classes = [250, 500, 750, 1000]; 
+            var legendCircle;  
+            var lastRadius = 0;
+            var currentRadius;
+            var margin;
+
+            div.innerHTML += '<h3>Количество объектов в OSM</h3>';
+
+            // L.DomEvent.addListener(div, 'mousedown', function(e) { 
+            // 	L.DomEvent.stopPropagation(e); 
+            // });  
+
+            // $(div).append("<h4 id=’legendTitle’>Количество объектов в OSM</h4>");
+
+            legendCircleMax = L.DomUtil.create('div', 'legendCircleMax');
+
+            $(legendCircleMax).attr('style', 'width: 80'+ 
+                'px; height: 80' + 
+                'px; margin-left: 5px' );				
+            $(signContainer).append("<span class='text_sign5'>"+">"+classes[3]+"</span>");
+            $(legendCircleMax).append("<span class='text'>"+(classes[3]+10)+"</span>");
+
+            $(symbolsContainer).append(legendCircleMax);
+
+            legendCircleMid = L.DomUtil.create('div', 'legendCircleMid');
+
+            $(legendCircleMid).attr('style', 'width: 65'+ 
+                'px; height: 65' + 
+                'px; margin-left: 20px' );				
+            $(signContainer).append("<span class='text_sign6'>"+classes[2] + " - " + classes[3]+"</span>");
+            $(legendCircleMid).append("<span class='text'>"+(10 + classes[2])+"</span>");
+
+            $(symbolsContainer).append(legendCircleMid);
+
+            legendCircleMid1 = L.DomUtil.create('div', 'legendCircleMid');
+
+            $(legendCircleMid1).attr('style', 'width: 50'+ 
+                'px; height: 50' + 
+                'px; margin-left: 20px' );				
+            $(signContainer).append("<span class='text_sign7'>"+classes[1] + " - " + classes[2]+"</span>");
+            $(legendCircleMid1).append("<span class='text'>"+(10 + classes[1])+"</span>");
+
+            $(symbolsContainer).append(legendCircleMid1);
+
+            legendCircleMid2 = L.DomUtil.create('div', 'legendCircleMid');
+
+            $(legendCircleMid2).attr('style', 'width: 35'+ 
+                'px; height: 35' + 
+                'px; margin-left: 20px' );				
+            $(signContainer).append("<span class='text_sign8'>"+classes[0] + " - " + classes[1]+"</span>");
+            $(legendCircleMid2).append("<span class='text'>"+(1 + classes[0])+"</span>");
+
+            $(symbolsContainer).append(legendCircleMid2);
+
+            legendCircleMin = L.DomUtil.create('div', 'legendCircleMin');
+
+            $(legendCircleMin).attr('style', 'width: 20'+ 
+                'px; height: 20' + 
+                'px; margin-left: 20px' );				
+            $(signContainer).append("<span class='text_sign9'>"+"<"+classes[0]+"</span>");
+            $(legendCircleMin).append("<span class='text'>"+(classes[0]-10)+"</span>");
+
+            $(symbolsContainer).append(legendCircleMin);
+            
+            // for (var i = 0; i <= classes.length-1; i++) {  
+
+            //     legendCircle = L.DomUtil.create('div', 'legendCircle');  
+
+            //     if (classes[i] >= 100) {
+                
+            //         currentRadius = classes[i]/2;
+            //     }
+            //     else if (classes[i] >= 50) {
+            //         currentRadius = classes[i]
+            //     }
+            //     else if (classes[i] >= 10) {
+            //         currentRadius = classes[i]*2
+            //     }
+            //     else {
+            //         currentRadius = classes[i]*5
+            //     };
+                
+            //     margin = 5;
+
+            //     $(legendCircle).attr('style', 'width: ' + currentRadius*2 + 
+            //         'px; height: ' + currentRadius*2 + 
+            //         'px; margin-left: ' + margin + 'px' );				
+            //     $(legendCircle).append("<span class='text'>"+classes[i]+"</span>");
+
+            //     $(symbolsContainer).append(legendCircle);
+
+            //     lastRadius = currentRadius;
+
+            // }
+
+            $(div).append(symbolsContainer);
+            $(div).append(signContainer);
+
+        // console.log(div);
+
+        return div;
+
+    };
+
+    //Легенда для карты муниципалитетов OSM
+
+    function addLegend_circleMun(grades) {
+
+        // console.log(grades[7]);
+        // var val = Math.max(grades);
+
+        // console.log(val);
+
+        // if (val >= 1000) {
+        //     var classes = [100, 1000]
+        // }
+        // else if (val >= 500) {
+        //     var classes = [50, 500]
+        // }
+        // else if (val >= 100) {
+        //     var classes = [10, 100]
+        // }
+        // else if (val >= 10) {
+        //     var classes = [3, 10]
+        // }
+        // else if (val >= 0) {
+        //     var classes = [3, 5]
+        // }
+
+        // console.log(classes);
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id-circle'),
+            
+
+
+            symbolsContainer = L.DomUtil.create('div', 'symbolsContainer');
+            signContainer = L.DomUtil.create('div', 'signContainer');
+            var classes = [5, 10, 50, 100]; 
+            var legendCircle;  
+            var lastRadius = 0;
+            var currentRadius;
+            var margin;
+
+            div.innerHTML += '<h3>Количество объектов в OSM</h3>';
+
+            // L.DomEvent.addListener(div, 'mousedown', function(e) { 
+            // 	L.DomEvent.stopPropagation(e); 
+            // });  
+
+            // $(div).append("<h4 id=’legendTitle’>Количество объектов в OSM</h4>");
+
+            legendCircleMax = L.DomUtil.create('div', 'legendCircleMax');
+
+            $(legendCircleMax).attr('style', 'width: 80'+ 
+                'px; height: 80' + 
+                'px; margin-left: 5px' );				
+            $(signContainer).append("<span class='text_sign'>более "+classes[3]+"     </span>");
+            $(legendCircleMax).append("<span class='text'>"+(classes[3]+1)+"</span>");
+
+            $(symbolsContainer).append(legendCircleMax);
+
+            legendCircleMid = L.DomUtil.create('div', 'legendCircleMid');
+
+            $(legendCircleMid).attr('style', 'width: 60'+ 
+                'px; height: 60' + 
+                'px; margin-left: 30px' );				
+            $(signContainer).append("<span class='text_sign1'>"+classes[2] + " - " + classes[3]+"     </span>");
+            $(legendCircleMid).append("<span class='text'>"+(1 + classes[2])+"</span>");
+
+            $(symbolsContainer).append(legendCircleMid);
+
+            legendCircleMid1 = L.DomUtil.create('div', 'legendCircleMid');
+
+            $(legendCircleMid1).attr('style', 'width: 40'+ 
+                'px; height: 40' + 
+                'px; margin-left: 30px' );				
+            $(signContainer).append("<span class='text_sign2'>"+classes[1] + " - " + classes[2]+"     </span>");
+            $(legendCircleMid1).append("<span class='text'>"+(1 + classes[1])+"</span>");
+
+            $(symbolsContainer).append(legendCircleMid1);
+
+            legendCircleMid2 = L.DomUtil.create('div', 'legendCircleMid2');
+
+            $(legendCircleMid2).attr('style', 'width: 20'+ 
+                'px; height: 20' + 
+                'px; margin-left: 20px' );				
+            $(signContainer).append("<span class='text_sign3'>"+classes[0] + " - " + classes[1]+"     </span>");
+            $(legendCircleMid2).append("<span class='text'>"+(1 + classes[0])+"</span>");
+
+            $(symbolsContainer).append(legendCircleMid2);
+
+            legendCircleMin = L.DomUtil.create('div', 'legendCircleMin');
+
+            $(legendCircleMin).attr('style', 'width: 10'+ 
+                'px; height: 10' + 
+                'px; margin-left: 20px' );				
+            $(signContainer).append("<span class='text_sign4'>менее "+classes[0]+"     </span>");
+            $(legendCircleMin).append("<span class='text'>"+(classes[0]-1)+"</span>");
+
+            $(symbolsContainer).append(legendCircleMin);
+            
+            // for (var i = 0; i <= classes.length-1; i++) {  
+
+            //     legendCircle = L.DomUtil.create('div', 'legendCircle');  
+
+            //     if (classes[i] >= 100) {
+                
+            //         currentRadius = classes[i]/2;
+            //     }
+            //     else if (classes[i] >= 50) {
+            //         currentRadius = classes[i]
+            //     }
+            //     else if (classes[i] >= 10) {
+            //         currentRadius = classes[i]*2
+            //     }
+            //     else {
+            //         currentRadius = classes[i]*5
+            //     };
+                
+            //     margin = 5;
+
+            //     $(legendCircle).attr('style', 'width: ' + currentRadius*2 + 
+            //         'px; height: ' + currentRadius*2 + 
+            //         'px; margin-left: ' + margin + 'px' );				
+            //     $(legendCircle).append("<span class='text'>"+classes[i]+"</span>");
+
+            //     $(symbolsContainer).append(legendCircle);
+
+            //     lastRadius = currentRadius;
+
+            // }
+
+            $(div).append(symbolsContainer);
+            $(div).append(signContainer);
+
+        // console.log(div);
+
+        return div;
+
+        };
+
+
+    // Легенда для карты России - численность населения - картодиаграмма
+    function addLegendRusPop() {
+
+        var formatter = new Intl.NumberFormat("ru");
+        var div = L.DomUtil.create('div', 'info legend unique-legend-id'),
+            grades = [7.5, 5, 2.5, 1, 500, 250, 0],
+            labels = [];
+
+            div.innerHTML += '<h3>Численность населения</h3>'
+            div.innerHTML += '<p>чел.</p>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            if (i===0) {
+                div.innerHTML += 
+                    '<i style="background:' + russiaPopColor(grades[i]+1) + '"></i> ' +
+                    'более ' + formatter.format(grades[i]) + ' млн жителей<br>';
+            }
+            else if (i===grades.length - 1) {
+                div.innerHTML += 
+                    '<i style="background:' + russiaPopColor(grades[i]+1) + '"></i> ' +
+                    'менее ' + formatter.format(grades[i-1]) + ' тыс. жителей<br>';
+            }
+            else if (i===1 || i===2 || i===3){
+                div.innerHTML +=
+                    '<i style="background:' + russiaPopColor(grades[i] + 1) + '"></i> ' +
+                    formatter.format(grades[i]) + ' млн - ' + formatter.format(grades[i-1]) + ' млн жителей<br>';
+            }
+            else if (i===4){
+                div.innerHTML +=
+                    '<i style="background:' + russiaPopColor(grades[i] + 1) + '"></i> ' +
+                    formatter.format(grades[i]) + ' тыс. - ' + formatter.format(grades[i-1]) + ' млн жителей<br>';
+            }
+            else if (i===5){
+                div.innerHTML +=
+                    '<i style="background:' + russiaPopColor(grades[i] + 1) + '"></i> ' +
+                    formatter.format(grades[i]) + ' тыс. - ' + formatter.format(grades[i-1]) + ' тыс. жителей<br>';
+            }
+        }
+
+        // console.log(div);
+
+        return div;
+    };
+
+
+    function regionColor(d) {
+        return d === 'center' ? '#FEBBD2' :
+            d === 'privol'  ? '#B3E0FD' :
+            d === 'sibir'  ? '#C3FEBB' :
+            d === 'north_west'  ? '#D0BBFE' :
+            d === 'kavkaz'   ? '#FE4E46' :
+            d === 'south'   ? '#FEB24C' :
+            d === 'far_east'   ? '#FDE1B3' :
+            d === 'ural'      ? '#FDFBB3' :
+                         '#FFEDA0';
+    };
+
+    function russiaDenColor(d) {
+        return d > 3000 ? '#800026' :
+            d > 500 ? '#BD0026' :
+            d > 100  ? '#E31A1C' :
+            d > 50  ? '#FC4E2A' :
+            d > 25  ? '#FD8D3C' :
+            d > 5   ? '#FEB24C' :
+            d > 1   ? '#FED976' :
+                         '#FFEDA0';
+    };
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 5,
+            // color: regionColor(layer.properties.okrug),
+            color: '#00cc99',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+    };
+
+
+    // Население для муниципалитетов по клику на карте
+    function chooseFeature(e) {
+        if (myLeafletMap.hasLayer(mun)) {
+            // console.log('true');
+            myLeafletMap.removeLayer(mun);
+        };
+        if (myLeafletMap.hasLayer(markers)) {
+            markers.eachLayer(function (layer) {
+                markers.removeLayer(layer)
+            });
+            // console.log('markers');
+            myLeafletMap.removeLayer(markers);
+        };
+        if (markers.length > 0) {
+            for(i=0; i<markers.length; i++) {  
+                myLeafletMap.removeLayer(markers[i]);
+        };
+        // console.log('marker');
+        };
+
+        var layer = this;
+        var name = e.target.feature.properties.name;
+        // console.log(m[name]);
+        mun = L.geoJSON(msk, {
+            filter: function munFilter(feature) {
+                if (feature.properties.region === name) {
+                    return feature;
+                }
+            },
+            style: function onValues(feature) {
+                // console.log(feature.properties.density);
+                return {
+                    fillColor: getColor(feature.properties.density),
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 0.7
+                };
+            },
+
+            onEachFeature: function onValues(feature, layer) {
+
+                var polygon = L.polygon(feature.geometry.coordinates, {});
+                var polCors = polygon.getBounds().getCenter();
+                pop = feature.properties.pop;
+
+                layer.bindTooltip(feature.properties['name'], { 'noHide': true });
+
+                marker = new L.CircleMarker([polCors.lng, polCors.lat], {radius:radius(pop)*10,
+                    // radius: 5000,
+                    color: '#5A0408',
+                    opacity: 0,
+                    fillColor: '#99191F',
+                    fillOpacity: 0.3
+                }).addTo(markers);
+                var text = L.tooltip({
+                    permanent: true,
+                    direction: 'center',
+                    className: 'text'
+                })
+                .setContent(Math.round(pop/100).toString())
+                .setLatLng([polCors.lng, polCors.lat]);
+                text
+                .addTo(markers);
+                // markers.addTo(myLeafletMap);
+                // console.log(feature);                        
+            },
+        }).addTo(myLeafletMap);
+
+        markers.addTo(myLeafletMap);
+        // layer.setStyle({
+        //     weight: 5,
+        //     color: '#FF0000',
+        //     dashArray: '',
+        //     fillOpacity: 0.7
+        // });
+
+        myLeafletMap.fitBounds(layer.getBounds());
+
+        if ($(".unique-legend-id").length === 0) {
+            var legend = addLegend();
+            // console.log("-------->");
+            // console.log(legend);
+            $("#legend").append(legend);
+        }
+    };
+
+    // function chooseFeature(e) {
+    //     if (myLeafletMap.hasLayer(mun)) {
+    //         console.log('true');
+    //         myLeafletMap.removeLayer(mun);
+    //     };
+    //     if (markers.length > 0) {
+    //         for(i=0; i<markers.length; i++) {  
+    //             myLeafletMap.removeLayer(markers[i]);
+    //         };
+    //         console.log('marker');
+    //     };
+    //     var name = e.target.feature.properties.NAME_LONG
+
+    //     $.post(
+    //     "https://overpass-api.de/api/interpreter",
+    //     {
+    //         // data: `[out:csv(::count, ::"count:nodes", ::"count:relations")];
+    //         //     area(`+name+`)->.searchArea;
+    //         //     (
+    //         //         node["amenity" = "bar"](area.searchArea);
+    //         //         way["amenity" = "bar"](area.searchArea);
+    //         //         relation["amenity" = "bar"](area.searchArea);
+    //         //     );
+    //         //     out count;`,
+
+    //         data: `[out:json];
+    //             area[name="`+name+`"][boundary];
+    //             rel(area)[boundary][admin_level=6];
+    //             map_to_area;
+    //             foreach->.d(
+    //                 (.d;);out; 
+    //                 (node(area.d)[amenity=pharmacy];
+    //                 way(area.d)[amenity=pharmacy];
+    //                 relation(area.d)[amenity=pharmacy];);
+    //             out count;
+    //             );`,
+    //     },
+    //     onAjaxSuccess.bind(e.target), //передали в качестве this значение e.target - чтобы слой был доступен в функции onAjaxSuccess. Это называется передать контекст
+    //     );
+    // // }
+    // function onAjaxSuccess(data) {
+    // // Здесь мы получаем данные, отправленные сервером и выводим их на экран.
+    //     console.log(data);
+    //     console.log(name);
+
+    //     var layer = this;
+    //     mun = L.geoJSON(msk, {
+    //         filter: function munFilter(feature) {
+    //             if (feature.properties.region === name) {
+    //                 return feature;
+    //             }
+    //         },
+    //         onEachFeature: function onValues(feature) {
+    //             // console.log(feature);
+    //             var mun_name = feature.properties.name
+    //             data.elements.map( (d,index) => {
+    //                 if ( mun_name === d.tags.name ) {
+    //                     var numberCount = data.elements[index+1].tags.total;
+    //                     var polygon = L.polygon(feature.geometry.coordinates, {});
+    //                     var pop = feature.properties.pop;
+
+    //                     console.log(polygon.getBounds().getCenter());
+                        
+    //                     var polCors = polygon.getBounds().getCenter();
+    //                     // if (myLeafletMap.hasLayer(marker)) {
+    //                     //     console.log('marker');
+    //                     //     myLeafletMap.removeLayer(marker);
+    //                     // };
+    //                     marker = L.marker([polCors.lng, polCors.lat], {
+    //                         icon: new L.AwesomeNumberMarkers({
+    //                           number: numberCount, 
+    //                           markerColor: "blue"
+    //                         })
+    //                     }).addTo(myLeafletMap);
+    //                     markers.push(marker);
+    //                 }
+    //             })
+                
+    //         }
+    //     }).addTo(myLeafletMap);
+
+    //     layer.setStyle({
+    //         weight: 5,
+    //         color: '#FF0000',
+    //         dashArray: '',
+    //         fillOpacity: 0.7
+    //     });
+
+    //     myLeafletMap.fitBounds(layer.getBounds());
+
+    //     var e = document.getElementById("inputGroupSelect");
+    //     var strUser = e.options[e.selectedIndex].text;
+    //     console.log(strUser);
+    // };
+    // };
+
+    // console.log(data); 
+    
+    
+
+    // function getColor(d) {
+    //     return d > 1000 ? '#800026' :
+    //         d > 500  ? '#BD0026' :
+    //         d > 200  ? '#E31A1C' :
+    //         d > 100  ? '#FC4E2A' :
+    //         d > 50   ? '#FD8D3C' :
+    //         d > 20   ? '#FEB24C' :
+    //         d > 10   ? '#FED976' :
+    //                     '#FFEDA0';
+    // }
+
+    // function style(feature) {
+    //     return {
+    //         fillColor: getColor(numberCount/pop),
+    //         weight: 2,
+    //         opacity: 1,
+    //         color: 'white',
+    //         fillOpacity: 0.7
+    //     };
+    // }
+
+    // var legend = L.control({position: 'bottomright'});
+
+    // legend.onAdd = function (map) {
+
+    //     var div = L.DomUtil.create('div', 'info legend'),
+    //         grades = [0, 1000, 2000, 5000, 10000, 20000, 50000, 100000],
+    //         labels = [];
+
+    //     // loop through our density intervals and generate a label with a colored square for each interval
+    //     for (var i = 0; i < grades.length; i++) {
+    //         div.innerHTML +=
+    //             '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+    //             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    //     }
+
+    //     return div;
+    // };
+
+    // legend.addTo(myLeafletMap);
+
+    function resetHighlight(e) {
+        poly.resetStyle(e.target);
+    }
+
+    //For population
+    function radius(e) {
+        if (e < 250000) {
+            return 1
+        }
+        else if (e > 250000 && e < 500000) {
+            return 2
+        }
+        else if (e > 500000 && e < 1000000) {
+            return 3
+        }
+        else if (e > 1000000 && e < 2500000) {
+            return 4
+        }
+        else if (e > 2500000 && e < 5000000) {
+            return 5
+        }
+        else if (e > 5000000 && e < 7500000) {
+            return 6
+        }
+        else if (e > 7500000) {
+            return 7
+        }
+    };
+
+
+    //For OSM-objects
+    function radiusOSM(e, scale = 1) {
+        if (e >= 1000) {
+            return 40 * scale
+        }
+        else if (e >= 750) {
+            return 34 * scale
+        }
+		else if (e >= 500) {
+            return 28 * scale
+        }
+		else if (e >= 250) {
+            return 22 * scale
+        }
+        // else if (e >= 100) {
+        //     return e/10
+        // }
+        // else if (e >= 50) {
+        //     return e/11
+        // }
+        // else if (e >= 10) {
+        //     return e
+        // }
+        else if (e < 250) {
+            return 16 * scale
+        }
+    };
+
+    function radiusOSMmun(e, scale = 1) {
+        if (e >= 100) {
+            return 35 * scale
+        }
+        else if (e >= 50) {
+            return 20 * scale
+        }
+        // else if (e >= 100) {
+        //     return e/10
+        // }
+        // else if (e >= 50) {
+        //     return e/11
+        // }
+        // else if (e >= 10) {
+        //     return e
+        // }
+        else if (e >= 10) {
+            return 15 * scale
+        }
+        else if (e >= 5) {
+            return 10 * scale
+        }
+        else if (e < 5) {
+            return 5 * scale
+        }
+        else if (e === 0) {
+            return 0
+        }
+    };
+
+    function onEachFeature(feature, layer) {
+        layer.bindTooltip(feature.properties['name'], { 'noHide': true });
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: chooseFeature,
+            // click: zoomToFeature,
+            // click: highlightFeature,
+        });
+    };
+
+    var mun = L.geoJSON(msk);
+    // var mun = L.geoJSON(msk, {
+    //         onEachFeature: before,
+    //     }).addTo(myLeafletMap);
+
+    var poly = L.geoJSON(regions, {
+            onEachFeature: onEachFeature,
+            style: function onRegions(feature) {
+                // console.log(feature.properties.okrug);
+                return {
+                    fillColor: regionColor(feature.properties.okrug),
+                    weight: 1,
+                    opacity: 1,
+                    color: '#939392',
+                    // dashArray: '3',
+                    fillOpacity: 0.7
+                };
+            }
+            // style: regionColor(feature.properties.okrug),
+        }).addTo(myLeafletMap);
+
+
+    var chbox = document.getElementById('regions');
+    $("#regions").on("change", function checkRegions () {
+        // var chbox = document.getElementById('regions');
+        if (chbox.checked) {
+            myLeafletMap.addLayer(poly);
+        } else {
+            myLeafletMap.removeLayer(poly);
+        }
+    });
+
+    var chbox1 = document.getElementById('markers');
+    $("#markers").on("change", function checkMarkers () {
+        // var chbox = document.getElementById('regions');
+        if (chbox1.checked) {
+            myLeafletMap.addLayer(markers);
+            myLeafletMap.addLayer(texts);
+        } else {
+            myLeafletMap.removeLayer(markers);
+            myLeafletMap.removeLayer(texts);
+        }
+    });
+
+    $(window).load(function() {
+     $('#loading').hide();
+    });
+    var numberCount;
+    var numberCountOf;
+    var value;
+    var values = {};
+    var values1 = [];
+    var listval = [];
+    function getInput(strObj, callback) { 
+        $.getJSON("Russia/" + strObj + ".json", function(json) {
+                            
+            json.elements.map( (d,index) => {
+
+                // console.log('tut');
+                // setTimeout("console.log('time1')", 1000);
+                // values[json.elements[index].name] = parseInt(json.elements[index].tags.total);
+                listval.push(parseInt(json.elements[index].tags.total));
+                // setTimeout("console.log('time')", 1000);
+            });
+            // console.log(listval);
+        })
+        callback(listval);
+    };
+
+    function LegendOSM() {
+        if ($(".unique-legend-id-circle").length === 0) {
+            setTimeout("console.log('time')", 5000);
+            var legend = addLegend_circle(listval);
+            // console.log("-------->");
+            // console.log(legend);
+            $("#legend").append(legend);
+        }
+        else { 
+            setTimeout("console.log('time')", 5000);
+            $(".unique-legend-id-circle").empty(); 
+            var legend = addLegend_circle(listval); 
+            // console.log("-------->"); 
+            // console.log(legend); 
+            $("#legend").append(legend); 
+        }
+    };
+    
+    // myLeafletMap.on('zoomend', function() {
+    //     var currZoom = myLeafletMap.getZoom();
+    //     if (currZoom > 4) {
+    //         texts.addTo(myLeafletMap);
+    //         markers.eachLayer(function (layer) {
+    //             var currRadius = layer.getRadius();
+    //             console.log(currRadius);
+    //             layer.setRadius(currRadius*2)
+    //         });
+    //     }
+    //     else if (currZoom < 4) {
+    //         if (myLeafletMap.hasLayer(texts)) {
+    //             myLeafletMap.removeLayer(texts)
+    //         };
+    //         markers.eachLayer(function (layer) {
+    //             var currRadius = layer.getRadius();
+    //             console.log(currRadius);
+    //             layer.setRadius(currRadius/2)
+    //         });
+    //     }
+    // });
+
+    //Получение данных по муниципалитетам и субъектам РФ
+    $(function() {
+        var button = document.getElementById('button');
+        button.addEventListener("click",
+            function() {
+                var values = {}; 
+                var values1 = []; 
+                var listval = [];
+                // var numberCount;
+                // var numberCountOf;
+                // $('#loading').show();
+                if (myLeafletMap.hasLayer(mun)) {
+                    // console.log('true');
+                    myLeafletMap.removeLayer(mun);
+                };
+                if (myLeafletMap.hasLayer(layerMun)) {
+                    // console.log('true');
+                    myLeafletMap.removeLayer(layerMun);
+                };
+                if (myLeafletMap.hasLayer(layerRus)) {
+                    // console.log('true');
+                    myLeafletMap.removeLayer(layerRus);
+                };
+                if (myLeafletMap.hasLayer(poly)) {
+                    // console.log('true');
+                    myLeafletMap.removeLayer(poly);
+                };
+                if (myLeafletMap.hasLayer(mun)) {
+                    // console.log('true');
+                    myLeafletMap.removeLayer(mun);
+                };
+				if (myLeafletMap.hasLayer(poly)) {
+					// console.log('true');
+					myLeafletMap.removeLayer(poly);
+				};
+                // if (myLeafletMap.hasLayer(layer)) {
+				// 	// console.log('true');
+				// 	myLeafletMap.removeLayer(layer);
+				// };
+                if (myLeafletMap.hasLayer(markers)) {
+                    markers.eachLayer(function (layer) {
+                        markers.removeLayer(layer)
+                    });
+                    // console.log('markers');
+                    myLeafletMap.removeLayer(markers);
+                };
+                if (myLeafletMap.hasLayer(texts)) {
+                    texts.eachLayer(function (layer) {
+                        texts.removeLayer(layer)
+                    });
+                    // console.log('markers');
+                    myLeafletMap.removeLayer(texts);
+                };
+                if (markers.length > 0) {
+                    for(i=0; i<markers.length; i++) {  
+                        myLeafletMap.removeLayer(markers[i]);
+                    };
+                    // console.log('marker');
+                };
+                var e = document.getElementById("inputGroupSelect");
+                var strRegion = e.options[e.selectedIndex].text;
+                // console.log(strRegion);
+                var f = document.getElementById("inputGroupSelect01");
+                var strObj = d[f.options[f.selectedIndex].text];
+                // console.log(strObj);
+                if (strRegion === "Российская Федерация") {
+                    if (myLeafletMap.hasLayer(poly)) {
+                        // console.log('true');
+                        myLeafletMap.removeLayer(poly);
+                    };
+                    radioButton = document.getElementsByName('r1');
+                    if (radioButton[0].checked) {
+                        
+                        $.getJSON("Russia/" + strObj + ".json", function(json) {
+                            
+                            json.elements.map( (d,index) => {
+
+                                // console.log('tut');
+                                // setTimeout("console.log('time1')", 1000);
+                                values[json.elements[index].name] = parseInt(json.elements[index].tags.total);
+                                values1.push(parseInt(json.elements[index].tags.total));
+                                // setTimeout("console.log('time')", 1000);
+                            });
+                        
+                        // $.ajax({
+                        //     url: "Russia/" + strObj + ".csv",
+                        //     dataType: 'text',
+                        // }).done(successFunction);
+
+                        // function successFunction(data){
+                        //     var allRows = data.split(/\r\n|\n/);
+                            var of_value;
+                            layerRus = L.geoJSON(regions, {
+
+                                onEachFeature: function (feature, layerRus) {
+                                    layerRus.bindTooltip(feature.properties['name'], { 'noHide': true });
+                                    // console.log(feature);
+                                    var sub_name = feature.properties.name;
+                                    json.elements.map( (d,index) => {
+                                        if (sub_name === d.name) {
+                                            $.getJSON("Russia/" + strObj + "/" + sub_name + ".json", function(json_osm) {
+                                                // console.log(sub_name);
+
+                                                numberCount = parseInt(json_osm.elements[1].tags.total);
+                                                // values1.push(numberCount);
+                                                feature.properties.number = numberCount;
+                                                feature.properties.style = numberCount/values[sub_name];
+
+                                                numberCountOf = parseInt(d.tags.total);
+                                                var polygon = L.polygon(feature.geometry.coordinates, {});
+
+                                                if (numberCount != 0 ) {
+                                                    var polCors = polygon.getBounds().getCenter();
+                                                    // if (myLeafletMap.hasLayer(marker)) {
+                                                    //     console.log('marker');
+                                                    //     myLeafletMap.removeLayer(marker);
+                                                    // };
+                                                    marker = new L.CircleMarker([polCors.lng, polCors.lat], {
+                                                        radius:radiusOSM(numberCount, 0.5),
+                                                        color: 'orangered',
+                                                        opacity: 1,
+														weight: 1,
+                                                        fillColor: 'orange',
+                                                        fillOpacity: 0.5
+                                                    }).addTo(markers);
+                                                    var vals_OSM = L.tooltip({
+                                                       permanent: true,
+                                                        direction: 'center',
+                                                        className: 'vals_OSM'
+                                                    })
+                                                    .setContent(numberCount.toString())
+                                                    .setLatLng([polCors.lng, polCors.lat]);
+                                                    vals_OSM
+                                                    .addTo(texts);
+                                                }
+                                                // if (index === json.elements.length) {
+                                                    setPolygonStyle();
+                                                    
+                                                // }
+                                            })
+                                        }
+                                    })
+                                    
+                                }
+                            }).addTo(myLeafletMap);
+                            markers.addTo(myLeafletMap);
+                            // texts.addTo(myLeafletMap);
+                            var chbox = document.getElementById('markers');
+                            chbox.checked = true;
+
+                            function setPolygonStyle() {
+                                layerRus.setStyle(function(feature) {
+                                    return {
+                                        fillColor: markColor(feature.properties.style),
+                                        weight: 1,
+                                        opacity: 1,
+                                        color: 'white',
+                                        dashArray: '3',
+                                        fillOpacity: 1
+                                    };
+                                })
+                            };
+                            // setTimeout("console.log('time5')", 5000);
+                            values1.sort(function(a,b){ 
+                                return a - b
+                            });
+
+                            myLeafletMap.fitBounds(layerRus.getBounds());
+                            setTimeout("console.log('time')", 5000);
+                            if ($(".unique-legend-id").length === 0) {
+                                var legend = addLegendOSM_area();
+                                // console.log("-------->");
+                                // console.log(legend);
+                                $("#legend").append(legend);
+                            }
+                            else { 
+                                $(".unique-legend-id").empty(); 
+                                var legend = addLegendOSM_area(); 
+                                // console.log("-------->"); 
+                                // console.log(legend); 
+                                $("#legend").append(legend); 
+                            };
+                            
+                            // function LegendOSM() {
+                            if ($(".unique-legend-id-circle").length === 0) {
+                                setTimeout("console.log('time')", 5000);
+                                var legend = addLegend_circle(values1);
+                                // console.log("-------->");
+                                // console.log(legend);
+                                $("#legend").append(legend);
+                            }
+                            else { 
+                                setTimeout("console.log('time')", 5000);
+                                $(".unique-legend-id-circle").empty(); 
+                                var legend = addLegend_circle(values1); 
+                                // console.log("-------->"); 
+                                // console.log(legend); 
+                                $("#legend").append(legend); 
+                            }
+                            // };
+                            // getInput(strObj, LegendOSM);
+                            
+                        })
+                        // })
+                    }
+                    else {
+                        
+                        // $.ajax({
+                        //     url: "Russia/" + strObj + ".csv",
+                        //     dataType: 'text',
+                        // }).done(successFunction);
+
+                        // function successFunction(data){
+                        //     var allRows = data.split(/\r\n|\n/);
+                            var of_value;
+                            layerRus = L.geoJSON(regions, {
+
+                                onEachFeature: function (feature, layerRus) {
+                                    layerRus.bindTooltip(feature.properties['name'], { 'noHide': true });
+                                    // console.log(feature);
+                                    var sub_name = feature.properties.name;
+                                    
+                                        $.getJSON("Russia/" + strObj + "/" + sub_name + ".json", function(json_osm) {
+                                            // console.log(sub_name);
+
+                                            numberCount = parseInt(json_osm.elements[1].tags.total);
+                                            // values1.push(numberCount);
+                                            feature.properties.number = numberCount;
+                                            feature.properties.style = numberCount/feature.properties.pop*1000;
+
+                                            // numberCountOf = parseInt(d.tags.total);
+                                            var polygon = L.polygon(feature.geometry.coordinates, {});
+
+                                            if (numberCount != 0 ) {
+                                                var polCors = polygon.getBounds().getCenter();
+                                                // if (myLeafletMap.hasLayer(marker)) {
+                                                //     console.log('marker');
+                                                //     myLeafletMap.removeLayer(marker);
+                                                // };
+                                                marker = new L.CircleMarker([polCors.lng, polCors.lat], {
+                                                    radius:radiusOSM(numberCount, 0.5),
+                                                    color: 'orangered',
+                                                    opacity: 1,
+                                                    weight: 1,
+                                                    fillColor: 'orange',
+                                                    fillOpacity: 0.5
+                                                }).addTo(markers);
+                                                var vals_OSM = L.tooltip({
+                                                    permanent: true,
+                                                    direction: 'center',
+                                                    className: 'vals_OSM'
+                                                })
+                                                .setContent(numberCount.toString())
+                                                .setLatLng([polCors.lng, polCors.lat]);
+                                                vals_OSM
+                                                .addTo(texts);
+                                            }
+                                            // if (index === json.elements.length) {
+                                                setPolygonStyle();
+                                                
+                                            // }
+                                        })
+                                        
+                                    
+                                }
+                            }).addTo(myLeafletMap);
+                            markers.addTo(myLeafletMap);
+                            
+                            var chbox = document.getElementById('markers');
+                            chbox.checked = true;
+
+                            function setPolygonStyle() {
+                                layerRus.setStyle(function(feature) {
+                                    return {
+                                        fillColor: markColorPop(feature.properties.style),
+                                        weight: 1,
+                                        opacity: 1,
+                                        color: 'white',
+                                        dashArray: '3',
+                                        fillOpacity: 1
+                                    };
+                                })
+                            };
+                            // setTimeout("console.log('time5')", 5000);
+                            values1.sort(function(a,b){ 
+                                return a - b
+                            });
+
+                            myLeafletMap.fitBounds(layerRus.getBounds());
+                            setTimeout("console.log('time')", 5000);
+                            if ($(".unique-legend-id").length === 0) {
+                                var legend = addLegendOSMPop_area();
+                                // console.log("-------->");
+                                // console.log(legend);
+                                $("#legend").append(legend);
+                            }
+                            else { 
+                                $(".unique-legend-id").empty(); 
+                                var legend = addLegendOSMPop_area(); 
+                                // console.log("-------->"); 
+                                // console.log(legend); 
+                                $("#legend").append(legend); 
+                            };
+                            
+                            // function LegendOSM() {
+                            if ($(".unique-legend-id-circle").length === 0) {
+                                setTimeout("console.log('time')", 5000);
+                                var legend = addLegend_circle(values1);
+                                // console.log("-------->");
+                                // console.log(legend);
+                                $("#legend").append(legend);
+                            }
+                            else { 
+                                setTimeout("console.log('time')", 5000);
+                                $(".unique-legend-id-circle").empty(); 
+                                var legend = addLegend_circle(values1); 
+                                // console.log("-------->"); 
+                                // console.log(legend); 
+                                $("#legend").append(legend); 
+                            }
+                            // };
+                            // getInput(strObj, LegendOSM);
+                            
+                        
+                    }
+
+                    myLeafletMap.on('zoomend', function() {
+                        var currZoom = myLeafletMap.getZoom();
+                        if (currZoom >= 4) {
+                            texts.addTo(myLeafletMap);
+                            // markers.eachLayer(function (layer) {
+                            //     if ( layer.options.radius ) { 
+                            //         var currRadius = layer.getRadius();
+                            //         // console.log(currRadius);
+                            //         layer.setRadius(currRadius*2)
+                            //     }
+                            // });
+                        }
+                        else if (currZoom < 4) {
+                            if (myLeafletMap.hasLayer(texts)) {
+                                myLeafletMap.removeLayer(texts)
+                            };
+                            // markers.eachLayer(function (layer) {
+                            //     var currRadius = layer.getRadius();
+                            //     // console.log(currRadius);
+                            //     layer.setRadius(currRadius/2)
+                            // });
+                        }
+                    });
+                }
+                else {
+                    if (myLeafletMap.hasLayer(layerMun)) {
+                        // console.log('true');
+                        myLeafletMap.removeLayer(layerMun);
+                    };
+                    radioButton = document.getElementsByName('r1');
+                    if (radioButton[0].checked) {
+                        var values = {};
+                        var values1 = [];
+                        
+                        $.getJSON("oficial/" + strRegion + "/" + strObj + ".json", function(json) {
+                            
+                            var layer1 = L.geoJSON(regions, {
+                                filter: function(feature) {
+                                    if (feature.properties.name === strRegion) {
+                                        return feature;
+                                    }
+                                }});
+
+                            json.elements.map( (d,index) => {
+                                if (d.type === "area") {
+                                    var name_of = d.tags.name;
+                                    var val_of = json.elements[index+1].tags.total;
+                                    // console.log(json.elements[index+1].tags.total);
+                                    if (name_of != undefined) {
+                                        values[name_of] = parseInt(val_of);
+                                        values1.push(parseInt(d.tags.total));
+                                    }
+                                }
+                                // console.log(json.elements[index].tags.name);
+                                
+                            });
+
+                            $.getJSON("regions/" + strRegion + "/" + strObj + ".json", function(json_osm) {
+                    
+                                var of_value;
+
+                                if (myLeafletMap.hasLayer(layerMun)) {
+                                    // console.log('true');
+                                    myLeafletMap.removeLayer(layerMun);
+                                };
+
+                                layerMun = L.geoJSON(msk, {
+                                    filter: function munFilter(feature) {
+                                        if (feature.properties.region === strRegion) {
+                                            return feature;
+                                        }
+                                    },
+                                    onEachFeature: function (feature, layerMun) {
+                                        layerMun.bindTooltip(feature.properties['name'], { 'noHide': true });
+                                        var mun_name = feature.properties.name;
+                                        // console.log(mun_name);
+                                        json.elements.map( (d,index) => {
+                                            if (mun_name === d.tags.name) {
+                                                numberCount = parseInt(json_osm.elements[index+1].tags.total);
+                                                feature.properties.number = numberCount;
+                                                feature.properties.style = numberCount/values[mun_name];
+                                                var polygon = L.polygon(feature.geometry.coordinates, {});
+                                                if (numberCount != 0 ) {
+                                                    var polCors = polygon.getBounds().getCenter();
+                                                    marker = new L.CircleMarker([polCors.lng, polCors.lat], {
+                                                        radius:radiusOSMmun(numberCount, 0.7),
+                                                        color: 'orangered',
+                                                        opacity: 1,
+                                                        weight: 1,
+                                                        fillColor: 'orange',
+                                                        fillOpacity: 0.5
+                                                    }).addTo(markers);
+                                                    if (numberCount > 0) {
+                                                        var vals_OSM = L.tooltip({
+                                                            permanent: true,
+                                                            direction: 'center',
+                                                            className: 'vals_OSM'
+                                                        })
+                                                        .setContent(numberCount.toString())
+                                                        .setLatLng([polCors.lng, polCors.lat]);
+                                                    };
+                                                    vals_OSM
+                                                    .addTo(markers);
+                                                }
+                                                // if (index === json.elements.length) {
+                                                    setPolygonStyle(layerMun, feature);
+                                                    
+                                                // }
+                                                
+                                            }
+                                        })
+                                        
+                                    }
+                                }).addTo(myLeafletMap);
+                                markers.addTo(myLeafletMap);
+                                var chbox = document.getElementById('markers');
+                                chbox.checked = true;
+                                var chboxMun = document.getElementById('mun');
+                                chboxMun.checked = true;
+                                var chboxReg = document.getElementById('regions');
+                                chboxReg.checked = false;
+                                function setPolygonStyle(l,f) {
+                                    l.setStyle(
+                                         {
+                                            fillColor: markColor(f.properties.style),
+                                            weight: 1,
+                                            opacity: 1,
+                                            color: 'white',
+                                            dashArray: '3',
+                                            fillOpacity: 1
+                                        }
+                                    )
+                                };
+                                // setTimeout("console.log('time5')", 5000);
+                                values1.sort(function(a,b){ 
+                                    return a - b
+                                });
+
+                                myLeafletMap.fitBounds(layer1.getBounds());
+                                // setTimeout("console.log('time')", 5000);
+                                if ($(".unique-legend-id").length === 0) {
+                                    var legend = addLegendOSMmun_area();
+                                    // console.log("-------->");
+                                    // console.log(legend);
+                                    $("#legend").append(legend);
+                                }
+                                else { 
+                                    $(".unique-legend-id").empty(); 
+                                    var legend = addLegendOSMmun_area(); 
+                                    // console.log("-------->"); 
+                                    // console.log(legend); 
+                                    $("#legend").append(legend); 
+                                };
+                                
+                                // function LegendOSM() {
+                                if ($(".unique-legend-id-circle").length === 0) {
+                                    // setTimeout("console.log('time')", 5000);
+                                    var legend = addLegend_circleMun(values1);
+                                    // console.log("-------->");
+                                    // console.log(legend);
+                                    $("#legend").append(legend);
+                                }
+                                else { 
+                                    setTimeout("console.log('time')", 5000);
+                                    $(".unique-legend-id-circle").empty(); 
+                                    var legend = addLegend_circleMun(values1); 
+                                    // console.log("-------->"); 
+                                    // console.log(legend); 
+                                    $("#legend").append(legend); 
+                                }
+                                // };
+                                // getInput(strObj, LegendOSM);
+                                
+                            })
+                            // })
+                        })
+                    }
+
+                    else {
+                        
+                        // $.ajax({
+                        //     url: "Russia/" + strObj + ".csv",
+                        //     dataType: 'text',
+                        // }).done(successFunction);
+
+                        // function successFunction(data){
+                        //     var allRows = data.split(/\r\n|\n/);
+                            var of_value;
+
+                            var layer1 = L.geoJSON(regions, {
+                                filter: function(feature) {
+                                    if (feature.properties.name === strRegion) {
+                                        return feature;
+                                    }
+                                }});
+
+                            $.getJSON("regions/" + strRegion + "/" + strObj + ".json", function(json) {
+                    
+                                layerMun = L.geoJSON(msk, {
+                                    filter: function munFilter(feature) {
+                                        if (feature.properties.region === strRegion) {
+                                            return feature;
+                                        }
+                                    },
+                                    onEachFeature: function (feature, layerMun) {
+                                        layerMun.bindTooltip(feature.properties['name'], { 'noHide': true });
+                                        var mun_name = feature.properties.name;
+                                        // console.log(mun_name);
+                                        json.elements.map( (d,index) => {
+                                            if (mun_name === d.tags.name) {
+                                                numberCount = parseInt(json.elements[index+1].tags.total);
+                                                feature.properties.number = numberCount;
+                                                feature.properties.style = numberCount/feature.properties.pop*1000;
+                                                var polygon = L.polygon(feature.geometry.coordinates, {});
+                                                if (numberCount != 0 ) {
+                                                    var polCors = polygon.getBounds().getCenter();
+                                                    marker = new L.CircleMarker([polCors.lng, polCors.lat], {
+                                                        radius:radiusOSMmun(numberCount, 0.7),
+                                                        color: 'orangered',
+                                                        opacity: 1,
+                                                        weight: 1,
+                                                        fillColor: 'orange',
+                                                        fillOpacity: 0.5
+                                                    }).addTo(markers);
+                                                    if (numberCount > 0) {
+                                                        var vals_OSM = L.tooltip({
+                                                            permanent: true,
+                                                            direction: 'center',
+                                                            className: 'vals_OSM'
+                                                        })
+                                                        .setContent(numberCount.toString())
+                                                        .setLatLng([polCors.lng, polCors.lat]);
+                                                    };
+                                                    vals_OSM
+                                                    .addTo(markers);
+                                                }
+                                                // if (index === json.elements.length) {
+                                                    setPolygonStyle(layerMun, feature);
+                                                    
+                                                // }
+                                                
+                                            }
+                                        })
+                                        
+                                    }
+                                }).addTo(myLeafletMap);
+                            markers.addTo(myLeafletMap);
+                            var chbox = document.getElementById('markers');
+                            chbox.checked = true;
+                            var chboxMun = document.getElementById('mun');
+                            chboxMun.checked = true;
+                            var chboxReg = document.getElementById('regions');
+                            chboxReg.checked = false;
+                            function setPolygonStyle(l,f) {
+                                l.setStyle(
+                                        {
+                                        fillColor: markColorPop(f.properties.style),
+                                        weight: 1,
+                                        opacity: 1,
+                                        color: 'white',
+                                        dashArray: '3',
+                                        fillOpacity: 1
+                                    }
+                                )
+                            };
+                            
+                            values1.sort(function(a,b){ 
+                                return a - b
+                            });
+
+                            myLeafletMap.fitBounds(layer1.getBounds());
+                            setTimeout("console.log('time')", 5000);
+                            if ($(".unique-legend-id").length === 0) {
+                                var legend = addLegendOSMPopMun_area();
+                                // console.log("-------->");
+                                // console.log(legend);
+                                $("#legend").append(legend);
+                            }
+                            else { 
+                                $(".unique-legend-id").empty(); 
+                                var legend = addLegendOSMPopMun_area(); 
+                                // console.log("-------->"); 
+                                // console.log(legend); 
+                                $("#legend").append(legend); 
+                            };
+                            
+                            // function LegendOSM() {
+                            if ($(".unique-legend-id-circle").length === 0) {
+                                setTimeout("console.log('time')", 5000);
+                                var legend = addLegend_circleMun(values1);
+                                // console.log("-------->");
+                                // console.log(legend);
+                                $("#legend").append(legend);
+                            }
+                            else { 
+                                setTimeout("console.log('time')", 5000);
+                                $(".unique-legend-id-circle").empty(); 
+                                var legend = addLegend_circleMun(values1); 
+                                // console.log("-------->"); 
+                                // console.log(legend); 
+                                $("#legend").append(legend); 
+                            }
+                            // };
+                            // getInput(strObj, LegendOSM);
+                            
+                        
+                    })
+                }
+                myLeafletMap.on('zoomend', function() { 
+                    var currZoom = myLeafletMap.getZoom(); 
+                    if (currZoom > 4) { 
+                        // texts.addTo(myLeafletMap); 
+                        markers.eachLayer(function (layer) { 
+                            if ( layer.options.radius ) { 
+                                var currRadius = layer.getRadius(); 
+                                // console.log(currRadius); 
+                                layer.setRadius(currRadius) 
+                            } 
+                        }); 
+                    } 
+                    else if (currZoom < 4) { 
+                        // if (myLeafletMap.hasLayer(texts)) { 
+                        //     myLeafletMap.removeLayer(texts) 
+                        // }; 
+                        markers.eachLayer(function (layer) { 
+                            if ( layer.options.radius ) { 
+                                var currRadius = layer.getRadius(); 
+                                // console.log(currRadius); 
+                                layer.setRadius(currRadius) 
+                            } 
+                        }); 
+                    } 
+                });
+            }
+        })
+    });
+    
+
+    // Получение данных по муниципалитетам выбранного субъекта
+    // $(function() {
+    //     var button = document.getElementById('button');
+    //     button.addEventListener("click",
+    //         function() {
+    //             var numberCount;
+    //             // $('#loading').show();
+    //             if (myLeafletMap.hasLayer(mun)) {
+    //                 console.log('true');
+    //                 myLeafletMap.removeLayer(mun);
+    //             };
+    //             if (myLeafletMap.hasLayer(mun)) {
+    //                 console.log('true');
+    //                 myLeafletMap.removeLayer(mun);
+    //             };
+    //             if (myLeafletMap.hasLayer(markers)) {
+    //                 markers.eachLayer(function (layer) {
+    //                     markers.removeLayer(layer)
+    //                 });
+    //                 console.log('markers');
+    //                 myLeafletMap.removeLayer(markers);
+    //             };
+    //             if (markers.length > 0) {
+    //                 for(i=0; i<markers.length; i++) {  
+    //                     myLeafletMap.removeLayer(markers[i]);
+    //                 };
+    //                 console.log('marker');
+    //             };
+    //             var e = document.getElementById("inputGroupSelect");
+    //             var strRegion = e.options[e.selectedIndex].text;
+    //             console.log(strRegion);
+    //             var f = document.getElementById("inputGroupSelect01");
+    //             var strObj = f.options[f.selectedIndex].text;
+    //             console.log(strObj);
+    //             var file = "regions/" + strRegion + "/" + d[strObj] + ".json";
+    //             var name = strRegion;
+                
+    //             $.getJSON("regions/" + strRegion + "/" + d[strObj] + ".json", function(json) {
+    //                 console.log(json.elements[9].tags); // this will show the info it in firebug console
+
+    //                 var layer = L.geoJSON(regions, {
+    //                     filter: function(feature) {
+    //                         if (feature.properties.name === strRegion) {
+    //                             return feature;
+    //                         }
+    //                     }});
+    //                 mun = L.geoJSON(msk, {
+    //                     filter: function munFilter(feature) {
+    //                         if (feature.properties.region === name) {
+    //                             return feature;
+    //                         }
+    //                     },
+    //                     onEachFeature: function onValues(feature, layer) {
+    //                         // console.log(feature);
+    //                         var mun_name = feature.properties.name;
+    //                         layer.bindTooltip(feature.properties['name'], { 'noHide': true });
+    //                         json.elements.map( (d,index) => {
+    //                             if ( mun_name === d.tags.name ) {
+    //                                 numberCount = json.elements[index+1].tags.total;
+    //                                 var polygon = L.polygon(feature.geometry.coordinates, {});
+
+    //                                 if (numberCount != 0 ) {
+    //                                     console.log(polygon.getBounds().getCenter());
+                                    
+    //                                     var polCors = polygon.getBounds().getCenter();
+    //                                     // if (myLeafletMap.hasLayer(marker)) {
+    //                                     //     console.log('marker');
+    //                                     //     myLeafletMap.removeLayer(marker);
+    //                                     // };
+    //                                     marker = new L.CircleMarker([polCors.lng, polCors.lat], {radius:numberCount*5,
+    //                                         // radius: 5000,
+    //                                         color: '#260FE8',
+    //                                         opacity: 0,
+    //                                         fillColor: '#5141DB',
+    //                                         fillOpacity: 0.3
+    //                                     }).addTo(markers);
+    //                                     var text = L.tooltip({
+    //                                         permanent: true,
+    //                                         direction: 'center',
+    //                                         className: 'text'
+    //                                     })
+    //                                     .setContent(numberCount.toString())
+    //                                     .setLatLng([polCors.lng, polCors.lat]);
+    //                                     text
+    //                                     .addTo(markers);
+    //                                 }
+                                    
+    //                             }
+    //                         })
+                            
+    //                     },
+    //                     style: function onValues(feature) {
+    //                         var pop = feature.properties.pop;
+    //                         console.log(feature.properties.pop);
+    //                         return {
+    //                             fillColor: markColor(numberCount/pop),
+    //                             weight: 2,
+    //                             opacity: 1,
+    //                             color: 'white',
+    //                             dashArray: '3',
+    //                             fillOpacity: 0.7
+    //                         };
+    //                     }
+    //                 }).addTo(myLeafletMap);
+    //                 markers.addTo(myLeafletMap);
+
+    //                 // layer.setStyle({
+    //                 //     weight: 5,
+    //                 //     color: '#FF0000',
+    //                 //     dashArray: '',
+    //                 //     fillOpacity: 0.7
+    //                 // });
+
+    //                 myLeafletMap.fitBounds(layer.getBounds());
+
+    //                 if ($(".unique-legend-id").length === 0) {
+    //                     var legend = addLegendOSM();
+    //                     console.log("-------->");
+    //                     console.log(legend);
+    //                     $("#legend").append(legend);
+    //                 }
+    //                 else { 
+    //                     $("#legend").empty(); 
+    //                     var legend = addLegendOSM(); 
+    //                     console.log("-------->"); 
+    //                     console.log(legend); 
+    //                     $("#legend").append(legend); 
+    //                 }
+                    
+                    
+    //         });
+    //     });
+    // });
+
+    // Численность населения по субъектам РФ
+    // $(function() {
+    //     var button = document.getElementById('russia');
+    //     button.addEventListener("click",
+    //         function() {
+    //             myLeafletMap.removeLayer(poly);
+    //             var numberCount;
+    //             // $('#loading').show();
+    //             if (myLeafletMap.hasLayer(mun)) {
+    //                 console.log('true');
+    //                 myLeafletMap.removeLayer(mun);
+    //             };
+    //             if (myLeafletMap.hasLayer(markers)) {
+    //                 markers.eachLayer(function (layer) {
+    //                     markers.removeLayer(layer)
+    //                 });
+    //                 console.log('markers');
+    //                 myLeafletMap.removeLayer(markers);
+    //             };
+    //             if (markers.length > 0) {
+    //                 for(i=0; i<markers.length; i++) {  
+    //                     myLeafletMap.removeLayer(markers[i]);
+    //                 };
+    //                 console.log('marker');
+    //             };
+
+    //             var mun = L.geoJSON(regions, {
+
+    //                 style: function onValues(feature) {
+    //                     var density = feature.properties.density;
+    //                     console.log(density);
+    //                     return {
+    //                         fillColor: russiaDenColor(density),
+    //                         weight: 2,
+    //                         opacity: 1,
+    //                         color: 'white',
+    //                         dashArray: '3',
+    //                         fillOpacity: 1
+    //                     };
+    //                 },
+
+    //                 onEachFeature: function onValues(feature, layer) {
+
+    //                     var polygon = L.polygon(feature.geometry.coordinates, {});
+    //                     var polCors = polygon.getBounds().getCenter();
+    //                     pop = parseInt(feature.properties.population);
+
+    //                     layer.bindTooltip(feature.properties['name'], { 'noHide': true });
+
+    //                     marker = new L.CircleMarker([polCors.lng, polCors.lat], {radius:radius(pop)*5,
+    //                         // radius: 5000,
+    //                         color: '#5A0408',
+    //                         opacity: 0,
+    //                         fillColor: '#99191F',
+    //                         fillOpacity: 0.3
+    //                     }).addTo(markers);
+    //                     var text = L.tooltip({
+    //                         permanent: true,
+    //                         direction: 'center',
+    //                         className: 'text'
+    //                     })
+    //                     .setContent(Math.round(pop/100).toString())
+    //                     .setLatLng([polCors.lng, polCors.lat]);
+    //                     text
+    //                     .addTo(markers);
+    //                     // markers.addTo(myLeafletMap);
+    //                     // console.log(feature);                        
+    //                 },
+                    
+                    
+    //             }).addTo(myLeafletMap);
+    //             markers.addTo(myLeafletMap);
+
+    //             // markers.style.zIndex = '300';
+
+    //             // layer.setStyle({
+    //             //     weight: 5,
+    //             //     color: '#FF0000',
+    //             //     dashArray: '',
+    //             //     fillOpacity: 0.7
+    //             // });
+
+    //             myLeafletMap.fitBounds(mun.getBounds());
+
+    //             if ($(".unique-legend-id").length === 0) {
+    //             var legend = addLegendRusDen();
+    //             console.log("-------->");
+    //             console.log(legend);
+    //             $("#legend").append(legend);
+    //             }
+    //             else { 
+    //                     $("#legend").empty(); 
+    //                     var legend = addLegendRusDen(); 
+    //                     console.log("-------->"); 
+    //                     console.log(legend); 
+    //                     $("#legend").append(legend); 
+    //             }
+                
+    //         });
+    // });
+
+    // Получение данных об объектах по субъектам РФ
+    // $(function objRus() { 
+    //         var numberCount;
+    //         // $('#loading').show();
+    //         if (myLeafletMap.hasLayer(mun)) {
+    //             console.log('true');
+    //             myLeafletMap.removeLayer(mun);
+    //         };
+    //         if (myLeafletMap.hasLayer(markers)) {
+    //             markers.eachLayer(function (layer) {
+    //                 markers.removeLayer(layer)
+    //             });
+    //             console.log('markers');
+    //             myLeafletMap.removeLayer(markers);
+    //         };
+    //         if (markers.length > 0) {
+    //             for(i=0; i<markers.length; i++) {  
+    //                 myLeafletMap.removeLayer(markers[i]);
+    //             };
+    //             console.log('marker');
+    //         };
+
+    //         var f = document.getElementById("inputGroupSelect01");
+    //         var strObj = f.options[f.selectedIndex].text;
+    //         console.log(strObj);
+    //         var file = "Russia/" + d[strObj] + ".csv";
+    //         // var name = strRegion;
+        
+
+    //         $.getJSON("D:/JS/Russia/" + d[strObj] + ".json", function(json) {
+    //             console.log(json.elements[9].tags); // this will show the info it in firebug console
+
+    //             $.ajax({
+    //                 url: file,
+    //                 dataType: 'text',
+    //             }).done(successFunction);
+    //             function successFunction(data){
+    //                 var allRows = data.split(/\r\n|\n/);
+                
+    //                 var mun = L.geoJSON(regions, {
+                        
+    //                     onEachFeature: function onValues(feature) {
+    //                         // console.log(feature);
+    //                         var sub_name = feature.properties.name;
+    //                         function find_of_value() {
+    //                             for (i=0; i<allRows.length; i++) {
+    //                                 var of_name = allRows[i].split(',')[0];
+    //                                 if (of_name === sub_name) {
+    //                                     var of_value = allRows[i].split(',')[1];
+    //                                 }
+    //                             }
+    //                             return of_value
+    //                         };
+    //                         json.elements.map( (d,index) => {
+    //                             if ( sub_name === d.tags.name ) {
+    //                                 numberCount = json.elements[index+1].tags.total;
+    //                                 var polygon = L.polygon(feature.geometry.coordinates, {});
+
+    //                                 if (numberCount != 0 ) {
+    //                                     console.log(polygon.getBounds().getCenter());
+                                    
+    //                                     var polCors = polygon.getBounds().getCenter();
+    //                                     // if (myLeafletMap.hasLayer(marker)) {
+    //                                     //     console.log('marker');
+    //                                     //     myLeafletMap.removeLayer(marker);
+    //                                     // };
+    //                                     marker = L.marker([polCors.lng, polCors.lat], {
+    //                                         icon: new L.AwesomeNumberMarkers({
+    //                                         number: numberCount, 
+    //                                         markerColor: "blue",
+    //                                         })
+    //                                     }).addTo(myLeafletMap);
+    //                                     markers.push(marker);
+    //                                 }
+    //                             }
+    //                         })
+                            
+    //                     },
+    //                     style: function onValues(feature) {
+    //                         var pop = feature.properties.pop;
+    //                         console.log(feature.properties.pop);
+    //                         return {
+    //                             fillColor: markColor(numberCount/of_value),
+    //                             weight: 2,
+    //                             opacity: 1,
+    //                             color: 'white',
+    //                             dashArray: '3',
+    //                             fillOpacity: 0.7
+    //                         };
+    //                     }
+    //                 }).addTo(myLeafletMap);
+
+    //                 // layer.setStyle({
+    //                 //     weight: 5,
+    //                 //     color: '#FF0000',
+    //                 //     dashArray: '',
+    //                 //     fillOpacity: 0.7
+    //                 // });
+
+    //                 myLeafletMap.fitBounds(layer.getBounds());
+    //         }
+    //     });
+    // });
+
+
+    // Получение данных об объектах по муниципалитетам при клике
+    var f = document.getElementById("inputGroupSelect01");
+    var strObj = f.options[f.selectedIndex].text;
+    if (strObj != "Выберите...") {
+        console.log('come to')
+        function chooseFeature(e) {
+            if (myLeafletMap.hasLayer(mun)) {
+                console.log('true');
+                myLeafletMap.removeLayer(mun);
+            };
+            if (myLeafletMap.hasLayer(markers)) {
+                markers.eachLayer(function (layer) {
+                    markers.removeLayer(layer)
+                });
+                console.log('markers');
+                myLeafletMap.removeLayer(markers);
+            };
+            if (markers.length > 0) {
+                for(i=0; i<markers.length; i++) {  
+                    myLeafletMap.removeLayer(markers[i]);
+            };
+            console.log('marker');
+            };
+
+            var layer = this;
+            var name = e.target.feature.properties.name;
+            var numberCount;
+
+            var file = "regions/" + name + "/" + d[strObj] + ".json";
+
+            $.getJSON("regions/" + name + "/" + d[strObj] + ".json", function(json) {
+                console.log(json.elements[9].tags); // this will show the info it in firebug console
+
+                var layer = L.geoJSON(regions, {
+                    filter: function(feature) {
+                        if (feature.properties.name === name) {
+                            return feature;
+                        }
+                    }});
+                mun = L.geoJSON(msk, {
+                    filter: function munFilter(feature) {
+                        if (feature.properties.region === name) {
+                            return feature;
+                        }
+                    },
+                    onEachFeature: function onValues(feature) {
+                        // console.log(feature);
+                        var mun_name = feature.properties.name;
+                        json.elements.map( (d,index) => {
+                            if ( mun_name === d.tags.name ) {
+                                numberCount = json.elements[index+1].tags.total;
+                                var polygon = L.polygon(feature.geometry.coordinates, {});
+
+                                if (numberCount != 0 ) {
+                                    console.log(polygon.getBounds().getCenter());
+                                
+                                    var polCors = polygon.getBounds().getCenter();
+                                    // if (myLeafletMap.hasLayer(marker)) {
+                                    //     console.log('marker');
+                                    //     myLeafletMap.removeLayer(marker);
+                                    // };
+                                    marker = new L.CircleMarker([polCors.lng, polCors.lat], {radius:numberCount*5,
+                                        // radius: 5000,
+                                        color: '#260FE8',
+                                        fillColor: '#5141DB',
+                                        fillOpacity: 0.3
+                                    }).addTo(markers);
+                                    var text = L.tooltip({
+                                        permanent: true,
+                                        direction: 'center',
+                                        className: 'text'
+                                    })
+                                    .setContent(numberCount.toString())
+                                    .setLatLng([polCors.lng, polCors.lat]);
+                                    text
+                                    .addTo(markers);
+                                }
+                                
+                            }
+                        })
+                        
+                    },
+                    style: function onValues(feature) {
+                        var pop = feature.properties.pop;
+                        console.log(feature.properties.pop);
+                        return {
+                            fillColor: markColor(numberCount/pop),
+                            weight: 2,
+                            opacity: 1,
+                            color: 'white',
+                            dashArray: '3',
+                            fillOpacity: 0.7
+                        };
+                    }
+                }).addTo(myLeafletMap);
+                markers.addTo(myLeafletMap);
+
+                // layer.setStyle({
+                //     weight: 5,
+                //     color: '#FF0000',
+                //     dashArray: '',
+                //     fillOpacity: 0.7
+                // });
+
+                myLeafletMap.fitBounds(layer.getBounds());
+            
+            });
+        };
+    };
+            
+
+    // $("#button").onclick(function onButton () {
+    //     var div = L.DomUtil.create('div', 'loading');
+    //     div.innerHTML += '<img id="loading-image" src="img/preloader.gif" alt="Loading..." />';
+    // });
+
+    function checkMun() {
+        var chbox = document.getElementById('mun');
+        if (chbox.checked = false) {
+            myLeafletMap.removeLayer(mun);
+        }
+    }
+
+    function checkMarkers() {
+        var chbox = document.getElementById('markers');
+        if (chbox.checked = false) {
+            myLeafletMap.removeLayer(markers);
+        }
+    }
+
+
+    // poly.eachLayer(function (layer) {
+    //     // Zoom to that layer.
+    //     myLeafletMap.fitBounds(layer.getBounds());
+    //     });
+});
+</script>
+
+
+</html>
